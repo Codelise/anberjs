@@ -1,0 +1,26 @@
+anberjs/
+├── index.html
+├── css/
+│   ├── shell.css
+│   ├── os.css
+│   └── crt.css
+├── src/
+│   ├── main.js                 # Bootstraps factory functions & event listeners
+│   ├── core/
+│   │   ├── inputManager.js     # Exposes input subscriber functions
+│   │   ├── storage.js          # Pure async functions for IndexedDB / LocalStorage
+│   │   └── audioManager.js     # Sound effect playback utility functions
+│   ├── os/
+│   │   ├── stateMachine.js     # Immutable state factory or pure dispatcher
+│   │   ├── launcher.js       # Pure DOM rendering & grid calculation functions
+│   │   └── bootAnimation.js  # Async boot sequence controller
+│   └── games/
+│       ├── snake/
+│       │   ├── snakeEngine.js  # Functional update/render loop (init, update, draw)
+│       │   └── snake.css
+│       └── whackAMole/
+│           ├── moleEngine.js
+│           └── mole.css
+└── assets/
+    ├── audio/
+    └── icons/

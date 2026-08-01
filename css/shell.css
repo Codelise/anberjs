@@ -1,0 +1,370 @@
+/* Core Page & Shell Setup */
+body {
+    background-color: #0c0c0c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: #16c2ce;
+    box-sizing: border-box;
+}
+
+/* Typography Utility Classes */
+.font-label-caps {
+    font-family: 'Space Mono', monospace;
+}
+
+/* ─── Responsive scale token ───────────────────────────────────────────────
+   --u is the base unit that every dimension in the shell is derived from.
+   clamp(min, preferred, max) keeps the device fitting any viewport:
+     · min  280px → never smaller than a very small phone
+     · preferred 85vmin → fills ~85 % of the shorter viewport axis
+     · max  420px → caps at a comfortable desktop size
+   One unit = shell-width / 340.  All pixel values below are expressed as
+   multiples of --u so the whole device scales proportionally.
+──────────────────────────────────────────────────────────────────────────── */
+.device-shell {
+    --shell-w: clamp(260px, 85vmin, 420px);
+    --u: calc(var(--shell-w) / 340);
+
+    width: var(--shell-w);
+    height: calc(var(--u) * 550);
+    padding: calc(var(--u) * 16);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    background-color: #042183fb;
+    border-radius: calc(var(--u) * 32) calc(var(--u) * 32) calc(var(--u) * 48) calc(var(--u) * 24);
+    box-shadow:
+        inset 2px 2px 5px rgba(255, 255, 255, 0.548),
+        inset -5px -5px 15px rgba(0, 0, 0, 0.1),
+        10px 15px 30px rgba(0, 0, 0, 0.5);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Screen Bezel Outer Wrap */
+.screen-bezel {
+    width: 100%;
+    background-color: #111;
+    border-radius: calc(var(--u) * 12);
+    padding: calc(var(--u) * 6);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+    margin-bottom: calc(var(--u) * 24);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.bezel-brand {
+    position: absolute;
+    bottom: calc(var(--u) * 4);
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #333;
+    font-size: calc(var(--u) * 10);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+/* Controls Container Area */
+.controls-area {
+    flex: 1;
+    position: relative;
+}
+
+/* Generic Physical Buttons */
+.physical-button {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 0.3), inset 1px 1px 2px rgba(255, 255, 255, 0.4);
+    transition: all 0.05s ease;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.physical-button:active,
+.physical-button.active {
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3), inset 2px 2px 4px rgba(0, 0, 0, 0.2);
+    transform: translate(2px, 2px);
+}
+
+.button-label {
+    font-size: calc(var(--u) * 8);
+    font-weight: bold;
+    color: #a3adbe;
+}
+
+/* Directional Pad (D-Pad) */
+.dpad-container {
+    position: absolute;
+    left: calc(var(--u) * 8);
+    top: calc(var(--u) * 20);
+    width: calc(var(--u) * 96);
+    height: calc(var(--u) * 96);
+}
+
+.dpad-cross-v {
+    position: absolute;
+    width: calc(var(--u) * 32);
+    height: calc(var(--u) * 96);
+    left: calc(var(--u) * 32);
+    top: 0;
+    background-color: #222;
+    border-radius: calc(var(--u) * 6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dpad-cross-h {
+    position: absolute;
+    width: calc(var(--u) * 96);
+    height: calc(var(--u) * 32);
+    left: 0;
+    top: calc(var(--u) * 32);
+    background-color: #222;
+    border-radius: calc(var(--u) * 6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dpad-btn {
+    position: absolute;
+    width: calc(var(--u) * 32);
+    height: calc(var(--u) * 32);
+    background: #2a2a2a;
+    box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dpad-btn .material-symbols-outlined {
+    font-size: calc(var(--u) * 20);
+}
+
+.dpad-btn:active,
+.dpad-btn.active {
+    background: #1a1a1a;
+}
+
+.dpad-up {
+    top: 0;
+    left: calc(var(--u) * 32);
+    border-top-left-radius: calc(var(--u) * 6);
+    border-top-right-radius: calc(var(--u) * 6);
+    color: rgb(160, 155, 155);
+}
+
+.dpad-down {
+    bottom: 0;
+    left: calc(var(--u) * 32);
+    border-bottom-left-radius: calc(var(--u) * 6);
+    border-bottom-right-radius: calc(var(--u) * 6);
+    color: rgb(160, 155, 155);
+}
+
+.dpad-left {
+    top: calc(var(--u) * 32);
+    left: 0;
+    border-top-left-radius: calc(var(--u) * 6);
+    border-bottom-left-radius: calc(var(--u) * 6);
+    color: rgb(160, 155, 155);
+}
+
+.dpad-right {
+    top: calc(var(--u) * 32);
+    right: 0;
+    border-top-right-radius: calc(var(--u) * 6);
+    border-bottom-right-radius: calc(var(--u) * 6);
+    color: rgb(160, 155, 155);
+}
+
+.dpad-pivot {
+    position: absolute;
+    width: calc(var(--u) * 32);
+    height: calc(var(--u) * 32);
+    left: calc(var(--u) * 32);
+    top: calc(var(--u) * 32);
+    background-color: #222;
+    border-radius: 50%;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dpad-pivot-inner {
+    width: calc(var(--u) * 12);
+    height: calc(var(--u) * 12);
+    border-radius: 50%;
+    background-color: #111;
+}
+
+/* Menu Button */
+.menu-button-group {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(var(--u) * 16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--u) * 4);
+}
+
+.btn-menu {
+    width: calc(var(--u) * 24);
+    height: calc(var(--u) * 24);
+    border-radius: 50%;
+    background: #2a2a2a;
+}
+
+/* Action Cluster (ABXY) */
+.action-buttons-cluster {
+    position: absolute;
+    right: calc(var(--u) * 8);
+    top: calc(var(--u) * 16);
+    width: calc(var(--u) * 100);
+    height: calc(var(--u) * 100);
+}
+
+.btn-position {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-pos-x {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn-pos-b {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn-pos-y {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+
+.btn-pos-a {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+.btn-action {
+    width: calc(var(--u) * 32);
+    height: calc(var(--u) * 32);
+    border-radius: 50%;
+    padding: 0;
+    font-weight: 700;
+    font-size: calc(var(--u) * 12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-x {
+    background: #2a2a2a;
+    color: #5e01f3;
+}
+
+.btn-b {
+    background: #2a2a2a;
+    color: #caa10d;
+}
+
+.btn-y {
+    background: #2a2a2a;
+    color: #06af2d;
+}
+
+.btn-a {
+    background: #2a2a2a;
+    color: #a8090c;
+}
+
+/* System Buttons (Select/Start) */
+.system-buttons-group {
+    position: absolute;
+    top: calc(var(--u) * 100);
+    bottom: calc(var(--u) * 32);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--u) * 16);
+}
+
+.pill-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--u) * 4);
+    transform: rotate(-12deg);
+}
+
+.pill-button-wrapper .button-label {
+    font-size: calc(var(--u) * 7);
+    font-weight: bold;
+}
+
+.btn-pill {
+    width: calc(var(--u) * 40);
+    height: calc(var(--u) * 12);
+    border-radius: calc(var(--u) * 12);
+    background: #2a2a2a;
+}
+
+/* Speaker Grill Texture */
+.speaker-grill {
+    position: absolute;
+    bottom: calc(var(--u) * 16);
+    right: calc(var(--u) * 16);
+    display: flex;
+    gap: calc(var(--u) * 4);
+    transform: rotate(45deg);
+}
+
+.grill-bar {
+    width: calc(var(--u) * 4);
+    background-color: #2b2c2ea9;
+    border-radius: 9999px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.bar-1 {
+    height: calc(var(--u) * 24);
+}
+
+.bar-2 {
+    height: calc(var(--u) * 32);
+    margin-top: calc(var(--u) * -4);
+}
+
+.bar-3 {
+    height: calc(var(--u) * 40);
+    margin-top: calc(var(--u) * -8);
+}
+
+.bar-4 {
+    height: calc(var(--u) * 32);
+    margin-top: calc(var(--u) * -4);
+}
+
+.bar-5 {
+    height: calc(var(--u) * 24);
+}
