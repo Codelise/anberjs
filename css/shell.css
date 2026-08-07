@@ -6,10 +6,9 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    padding: 1rem;
+    padding-inline: 1rem;
     font-family: 'JetBrains Mono', monospace;
     color: #16c2ce;
-    box-sizing: border-box;
 }
 
 /* Typography Utility Classes */
@@ -17,28 +16,17 @@ body {
     font-family: 'Space Mono', monospace;
 }
 
-/* ─── Responsive scale token ───────────────────────────────────────────────
-   --u is the base unit that every dimension in the shell is derived from.
-   clamp(min, preferred, max) keeps the device fitting any viewport:
-     · min  280px → never smaller than a very small phone
-     · preferred 85vmin → fills ~85 % of the shorter viewport axis
-     · max  420px → caps at a comfortable desktop size
-   One unit = shell-width / 340.  All pixel values below are expressed as
-   multiples of --u so the whole device scales proportionally.
-──────────────────────────────────────────────────────────────────────────── */
+/* Physical Device Casing */
 .device-shell {
-    --shell-w: clamp(260px, 85vmin, 420px);
-    --u: calc(var(--shell-w) / 340);
-
-    width: var(--shell-w);
-    height: calc(var(--u) * 550);
-    padding: calc(var(--u) * 16);
+    width: 340px;
+    height: 550px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     position: relative;
     box-sizing: border-box;
     background-color: #042183fb;
-    border-radius: calc(var(--u) * 32) calc(var(--u) * 32) calc(var(--u) * 48) calc(var(--u) * 24);
+    border-radius: 2rem 2rem 3rem 1.5rem;
     box-shadow:
         inset 2px 2px 5px rgba(255, 255, 255, 0.548),
         inset -5px -5px 15px rgba(0, 0, 0, 0.1),
@@ -50,22 +38,22 @@ body {
 .screen-bezel {
     width: 100%;
     background-color: #111;
-    border-radius: calc(var(--u) * 12);
-    padding: calc(var(--u) * 6);
+    border-radius: 12px;
+    padding: 6px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-    margin-bottom: calc(var(--u) * 24);
+    margin-bottom: 24px;
     position: relative;
     box-sizing: border-box;
 }
 
 .bezel-brand {
     position: absolute;
-    bottom: calc(var(--u) * 4);
+    bottom: 4px;
     left: 0;
     width: 100%;
     text-align: center;
     color: #333;
-    font-size: calc(var(--u) * 10);
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.1em;
 }
@@ -92,7 +80,7 @@ body {
 }
 
 .button-label {
-    font-size: calc(var(--u) * 8);
+    font-size: 8px;
     font-weight: bold;
     color: #a3adbe;
 }
@@ -100,38 +88,38 @@ body {
 /* Directional Pad (D-Pad) */
 .dpad-container {
     position: absolute;
-    left: calc(var(--u) * 8);
-    top: calc(var(--u) * 20);
-    width: calc(var(--u) * 96);
-    height: calc(var(--u) * 96);
+    left: 8px;
+    top: 20px;
+    width: 96px;
+    height: 96px;
 }
 
 .dpad-cross-v {
     position: absolute;
-    width: calc(var(--u) * 32);
-    height: calc(var(--u) * 96);
-    left: calc(var(--u) * 32);
+    width: 32px;
+    height: 96px;
+    left: 32px;
     top: 0;
     background-color: #222;
-    border-radius: calc(var(--u) * 6);
+    border-radius: 6px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .dpad-cross-h {
     position: absolute;
-    width: calc(var(--u) * 96);
-    height: calc(var(--u) * 32);
+    width: 32px;
+    height: 32px;
     left: 0;
-    top: calc(var(--u) * 32);
+    top: 32px;
     background-color: #222;
-    border-radius: calc(var(--u) * 6);
+    border-radius: 6px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .dpad-btn {
     position: absolute;
-    width: calc(var(--u) * 32);
-    height: calc(var(--u) * 32);
+    width: 32px;
+    height: 32px;
     background: #2a2a2a;
     box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
     border: none;
@@ -143,10 +131,6 @@ body {
     justify-content: center;
 }
 
-.dpad-btn .material-symbols-outlined {
-    font-size: calc(var(--u) * 20);
-}
-
 .dpad-btn:active,
 .dpad-btn.active {
     background: #1a1a1a;
@@ -154,42 +138,42 @@ body {
 
 .dpad-up {
     top: 0;
-    left: calc(var(--u) * 32);
-    border-top-left-radius: calc(var(--u) * 6);
-    border-top-right-radius: calc(var(--u) * 6);
+    left: 32px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     color: rgb(160, 155, 155);
 }
 
 .dpad-down {
     bottom: 0;
-    left: calc(var(--u) * 32);
-    border-bottom-left-radius: calc(var(--u) * 6);
-    border-bottom-right-radius: calc(var(--u) * 6);
+    left: 32px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
     color: rgb(160, 155, 155);
 }
 
 .dpad-left {
-    top: calc(var(--u) * 32);
+    top: 32px;
     left: 0;
-    border-top-left-radius: calc(var(--u) * 6);
-    border-bottom-left-radius: calc(var(--u) * 6);
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
     color: rgb(160, 155, 155);
 }
 
 .dpad-right {
-    top: calc(var(--u) * 32);
+    top: 32px;
     right: 0;
-    border-top-right-radius: calc(var(--u) * 6);
-    border-bottom-right-radius: calc(var(--u) * 6);
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
     color: rgb(160, 155, 155);
 }
 
 .dpad-pivot {
     position: absolute;
-    width: calc(var(--u) * 32);
-    height: calc(var(--u) * 32);
-    left: calc(var(--u) * 32);
-    top: calc(var(--u) * 32);
+    width: 32px;
+    height: 32px;
+    left: 32px;
+    top: 32px;
     background-color: #222;
     border-radius: 50%;
     box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
@@ -200,8 +184,8 @@ body {
 }
 
 .dpad-pivot-inner {
-    width: calc(var(--u) * 12);
-    height: calc(var(--u) * 12);
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background-color: #111;
 }
@@ -211,16 +195,16 @@ body {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    top: calc(var(--u) * 16);
+    top: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(var(--u) * 4);
+    gap: 4px;
 }
 
 .btn-menu {
-    width: calc(var(--u) * 24);
-    height: calc(var(--u) * 24);
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: #2a2a2a;
 }
@@ -228,10 +212,10 @@ body {
 /* Action Cluster (ABXY) */
 .action-buttons-cluster {
     position: absolute;
-    right: calc(var(--u) * 8);
-    top: calc(var(--u) * 16);
-    width: calc(var(--u) * 100);
-    height: calc(var(--u) * 100);
+    right: 8px;
+    top: 16px;
+    width: 100px;
+    height: 100px;
 }
 
 .btn-position {
@@ -266,12 +250,12 @@ body {
 }
 
 .btn-action {
-    width: calc(var(--u) * 32);
-    height: calc(var(--u) * 32);
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     padding: 0;
     font-weight: 700;
-    font-size: calc(var(--u) * 12);
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -299,72 +283,75 @@ body {
 
 /* System Buttons (Select/Start) */
 .system-buttons-group {
+    display: flex;
+    align-items: center;
+    justify-items: center;
     position: absolute;
-    top: calc(var(--u) * 100);
-    bottom: calc(var(--u) * 32);
+    top: 100px;
+    bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    align-items: center;
-    gap: calc(var(--u) * 16);
+    gap: 16px;
 }
 
 .pill-button-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(var(--u) * 4);
+    gap: 4px;
     transform: rotate(-12deg);
 }
 
 .pill-button-wrapper .button-label {
-    font-size: calc(var(--u) * 7);
+    font-size: 7px;
     font-weight: bold;
+
 }
 
 .btn-pill {
-    width: calc(var(--u) * 40);
-    height: calc(var(--u) * 12);
-    border-radius: calc(var(--u) * 12);
+    width: 40px;
+    height: 12px;
+    border-radius: 12px;
     background: #2a2a2a;
 }
 
 /* Speaker Grill Texture */
 .speaker-grill {
     position: absolute;
-    bottom: calc(var(--u) * 16);
-    right: calc(var(--u) * 16);
+    bottom: 16px;
+    right: 16px;
     display: flex;
-    gap: calc(var(--u) * 4);
+    gap: 4px;
     transform: rotate(45deg);
 }
 
 .grill-bar {
-    width: calc(var(--u) * 4);
+    width: 4px;
     background-color: #2b2c2ea9;
     border-radius: 9999px;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .bar-1 {
-    height: calc(var(--u) * 24);
+    height: 24px;
 }
 
 .bar-2 {
-    height: calc(var(--u) * 32);
-    margin-top: calc(var(--u) * -4);
+    height: 32px;
+    margin-top: -4px;
 }
 
 .bar-3 {
-    height: calc(var(--u) * 40);
-    margin-top: calc(var(--u) * -8);
+    height: 40px;
+    margin-top: -8px;
 }
 
 .bar-4 {
-    height: calc(var(--u) * 32);
-    margin-top: calc(var(--u) * -4);
+    height: 32px;
+    margin-top: -4px;
 }
 
 .bar-5 {
-    height: calc(var(--u) * 24);
+    height: 24px;
 }

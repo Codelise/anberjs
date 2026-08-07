@@ -1,206 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AnberJS - GBA Games Emulator</title>
-    <link rel="icon" href="favicon.png">
+    <title>AnberJS</title>
+    <link rel="icon" href="favicon.png" />
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="css/shell.css" />
     <link rel="stylesheet" href="css/os.css" />
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- Handheld Console Shell -->
     <div class="device-shell">
-
-        <!-- Screen Bezel -->
-        <div class="screen-bezel">
-            <!-- Actual Screen Display -->
-            <div class="screen-display">
-
-                <!-- Top Status Bar -->
-                <div class="status-bar">
-                    <span class="system-title">ANBER OS</span>
-                    <div class="status-icons">
-                        <span class="material-symbols-outlined icon">wifi</span>
-                        <span class="material-symbols-outlined icon">battery_full</span>
-                        <span class="material-symbols-outlined icon">schedule</span>
-                    </div>
-                </div>
-
-                <!-- Main Content Canvas (3x3 Grid Menu) -->
-                <div class="launcher-canvas">
-                    <div class="game-grid" id="game-grid">
-
-                        <!-- Grid Item 1 (Selected/Active) -->
-                        <div class="grid-item active">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">sports_esports</span>
-                            </div>
-                            <span class="game-title">Acrobat Adv.</span>
-                        </div>
-
-                        <!-- Grid Item 2 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">stadia_controller</span>
-                            </div>
-                            <span class="game-title">Block Buster</span>
-                        </div>
-
-                        <!-- Grid Item 3 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">videogame_asset</span>
-                            </div>
-                            <span class="game-title">Crystal Quest</span>
-                        </div>
-
-                        <!-- Grid Item 4 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">casino</span>
-                            </div>
-                            <span class="game-title">Dino Dash</span>
-                        </div>
-
-                        <!-- Grid Item 5 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">extension</span>
-                            </div>
-                            <span class="game-title">Emerald Isle</span>
-                        </div>
-
-                        <!-- Grid Item 6 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">sports_esports</span>
-                            </div>
-                            <span class="game-title">Flame Fury</span>
-                        </div>
-
-                        <!-- Grid Item 7 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">stadia_controller</span>
-                            </div>
-                            <span class="game-title">Ghost Gate</span>
-                        </div>
-
-                        <!-- Grid Item 8 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">videogame_asset</span>
-                            </div>
-                            <span class="game-title">Hydro Hero</span>
-                        </div>
-
-                        <!-- Grid Item 9 -->
-                        <div class="grid-item">
-                            <div class="icon-wrapper">
-                                <span class="material-symbols-outlined">casino</span>
-                            </div>
-                            <span class="game-title">Iron Icon</span>
-                        </div>
-
-                    </div>
-                </div>
-
+      <!-- Screen Bezel -->
+      <div class="screen-bezel">
+        <!-- Actual Screen Display -->
+        <div class="screen-display" id="screenDisplay">
+          <div class="boot-display" id="bootDisplay"></div>
+          <!-- Top Status Bar -->
+          <div class="status-bar" id="status-bar">
+            <span class="system-title">ANBER OS</span>
+            <div class="status-icons">
+              <span class="material-symbols-outlined icon">wifi</span>
+              <span class="material-symbols-outlined icon">battery_full</span>
+              <span class="material-symbols-outlined icon">schedule</span>
             </div>
-            <!-- Brand Text on Bezel
+          </div>
+
+          <!-- Main Content Canvas (3x3 Grid Menu) -->
+          <div class="launcher-canvas" id="launcherCanvas">
+            <div class="game-grid" id="game-grid">
+              <!-- Grid Item 1 (Selected/Active) -->
+              <div class="grid-item active">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">sports_esports</span>
+                </div>
+                <span class="game-title">Acrobat Adv.</span>
+              </div>
+
+              <!-- Grid Item 2 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined"
+                    >stadia_controller</span
+                  >
+                </div>
+                <span class="game-title">Block Buster</span>
+              </div>
+
+              <!-- Grid Item 3 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">videogame_asset</span>
+                </div>
+                <span class="game-title">Crystal Quest</span>
+              </div>
+
+              <!-- Grid Item 4 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">casino</span>
+                </div>
+                <span class="game-title">Dino Dash</span>
+              </div>
+
+              <!-- Grid Item 5 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">extension</span>
+                </div>
+                <span class="game-title">Emerald Isle</span>
+              </div>
+
+              <!-- Grid Item 6 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">sports_esports</span>
+                </div>
+                <span class="game-title">Flame Fury</span>
+              </div>
+
+              <!-- Grid Item 7 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined"
+                    >stadia_controller</span
+                  >
+                </div>
+                <span class="game-title">Ghost Gate</span>
+              </div>
+
+              <!-- Grid Item 8 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">videogame_asset</span>
+                </div>
+                <span class="game-title">Hydro Hero</span>
+              </div>
+
+              <!-- Grid Item 9 -->
+              <div class="grid-item">
+                <div class="icon-wrapper">
+                  <span class="material-symbols-outlined">casino</span>
+                </div>
+                <span class="game-title">Iron Icon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Brand Text on Bezel
             <div class="bezel-brand font-label-caps">GAME SYSTEM</div> -->
+      </div>
+
+      <!-- Controls Area -->
+      <div class="controls-area">
+        <!-- D-Pad -->
+        <div class="dpad-container">
+          <div class="dpad-cross-v"></div>
+          <div class="dpad-cross-h"></div>
+          <button class="dpad-btn dpad-up" id="btn-up">
+            <span class="material-symbols-outlined"> keyboard_arrow_up </span>
+          </button>
+          <button class="dpad-btn dpad-down" id="btn-down">
+            <span class="material-symbols-outlined"> keyboard_arrow_down </span>
+          </button>
+          <button class="dpad-btn dpad-left" id="btn-left">
+            <span class="material-symbols-outlined"> keyboard_arrow_left </span>
+          </button>
+          <button class="dpad-btn dpad-right" id="btn-right">
+            <span class="material-symbols-outlined">
+              keyboard_arrow_right
+            </span>
+          </button>
+          <div class="dpad-pivot">
+            <div class="dpad-pivot-inner"></div>
+          </div>
         </div>
 
-        <!-- Controls Area -->
-        <div class="controls-area">
-
-            <!-- D-Pad -->
-            <div class="dpad-container">
-                <div class="dpad-cross-v"></div>
-                <div class="dpad-cross-h"></div>
-                <button class="dpad-btn dpad-up" id="btn-up">
-                    <span class="material-symbols-outlined">
-                        keyboard_arrow_up
-                    </span>
-                </button>
-                <button class="dpad-btn dpad-down" id="btn-down"><span class="material-symbols-outlined">
-                        keyboard_arrow_down
-                    </span></button>
-                <button class="dpad-btn dpad-left" id="btn-left"><span class="material-symbols-outlined">
-                        keyboard_arrow_left
-                    </span></button>
-                <button class="dpad-btn dpad-right" id="btn-right">
-                    <span class="material-symbols-outlined">
-                        keyboard_arrow_right
-                    </span>
-                </button>
-                <div class="dpad-pivot">
-                    <div class="dpad-pivot-inner"></div>
-                </div>
-            </div>
-
-            <!-- MENU Button -->
-            <div class="menu-button-group">
-                <button class="physical-button btn-menu" id="btn-menu"></button>
-                <span class="button-label font-label-caps">MENU</span>
-            </div>
-
-            <!-- ABXY Buttons -->
-            <div class="action-buttons-cluster">
-                <!-- X (Top) -->
-                <div class="btn-position btn-pos-x">
-                    <button class="physical-button btn-action btn-x" id="btn-x">X</button>
-                </div>
-                <!-- B (Bottom) -->
-                <div class="btn-position btn-pos-b">
-                    <button class="physical-button btn-action btn-b" id="btn-b">B</button>
-                </div>
-                <!-- Y (Left) -->
-                <div class="btn-position btn-pos-y">
-                    <button class="physical-button btn-action btn-y" id="btn-y">Y</button>
-                </div>
-                <!-- A (Right) -->
-                <div class="btn-position btn-pos-a">
-                    <button class="physical-button btn-action btn-a" id="btn-a">A</button>
-                </div>
-            </div>
-
-            <!-- Select / Start -->
-            <div class="system-buttons-group">
-                <div class="pill-button-wrapper">
-                    <button class="physical-button btn-pill" id="btn-select"></button>
-                    <span class="button-label font-label-caps">SELECT</span>
-                </div>
-                <div class="pill-button-wrapper">
-                    <button class="physical-button btn-pill" id="btn-start"></button>
-                    <span class="button-label font-label-caps">START</span>
-                </div>
-            </div>
-
-            <!-- Speaker Grill -->
-            <div class="speaker-grill">
-                <div class="grill-bar bar-1"></div>
-                <div class="grill-bar bar-2"></div>
-                <div class="grill-bar bar-3"></div>
-                <div class="grill-bar bar-4"></div>
-                <div class="grill-bar bar-5"></div>
-            </div>
-
+        <!-- MENU Button -->
+        <div class="menu-button-group">
+          <button class="physical-button btn-menu" id="btnMenu"></button>
+          <span class="button-label font-label-caps">MENU</span>
         </div>
 
+        <!-- ABXY Buttons -->
+        <div class="action-buttons-cluster">
+          <!-- X (Top) -->
+          <div class="btn-position btn-pos-x">
+            <button class="physical-button btn-action btn-x" id="btn-x">
+              X
+            </button>
+          </div>
+          <!-- B (Bottom) -->
+          <div class="btn-position btn-pos-b">
+            <button class="physical-button btn-action btn-b" id="btn-b">
+              B
+            </button>
+          </div>
+          <!-- Y (Left) -->
+          <div class="btn-position btn-pos-y">
+            <button class="physical-button btn-action btn-y" id="btn-y">
+              Y
+            </button>
+          </div>
+          <!-- A (Right) -->
+          <div class="btn-position btn-pos-a">
+            <button class="physical-button btn-action btn-a" id="btn-a">
+              A
+            </button>
+          </div>
+        </div>
+
+        <!-- Select / Start -->
+        <div class="system-buttons-group">
+          <div class="pill-button-wrapper">
+            <button class="physical-button btn-pill" id="btn-select"></button>
+            <span class="button-label font-label-caps">SELECT</span>
+          </div>
+          <div class="pill-button-wrapper">
+            <button class="physical-button btn-pill" id="btn-start"></button>
+            <span class="button-label font-label-caps">START</span>
+          </div>
+        </div>
+
+        <!-- Speaker Grill -->
+        <div class="speaker-grill">
+          <div class="grill-bar bar-1"></div>
+          <div class="grill-bar bar-2"></div>
+          <div class="grill-bar bar-3"></div>
+          <div class="grill-bar bar-4"></div>
+          <div class="grill-bar bar-5"></div>
+        </div>
+      </div>
     </div>
 
-</body>
-
+    <script src="src/main.js" defer></script>
+  </body>
 </html>
