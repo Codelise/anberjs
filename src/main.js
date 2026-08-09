@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusBar = document.querySelector(".status-bar");
   const homeScreen = document.querySelector("#launcherCanvas");
 
-  //                                                           CONTROLS
+  //                    CONTROLS
 
   //   MENU BTN
   // BOOT UP
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         statusBar.style.display = "flex";
         homeScreen.style.display = "flex";
         homeScreen.style.flexDirection = "column";
-      }, 5000);
+      }, 4000);
     }, 2000);
   });
 
@@ -59,18 +59,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const dpadLeftBtn = document.querySelector("#btn-left");
   const dpadRightBtn = document.querySelector("#btn-right");
 
+  // UP
   dpadUpBtn.addEventListener("mousedown", () => {
-    screenDisplay.textContent = "DPAD UP";
+    if (gridActiveIndex - 3 >= 0) {
+      grids[gridActiveIndex].classList.remove('active')
+      gridActiveIndex -= 3;
+      grids[gridActiveIndex].classList.add('active')
+    }
   });
+
+  // DOWN
   dpadDownBtn.addEventListener("mousedown", () => {
-    screenDisplay.textContent = "DPAD DOWN";
+    if (gridActiveIndex + 3 <= 8) {
+      grids[gridActiveIndex].classList.remove('active');
+      gridActiveIndex += 3;
+      grids[gridActiveIndex].classList.add('active')
+    }
   });
+
+  // LEFT
   dpadLeftBtn.addEventListener("mousedown", () => {
-    screenDisplay.textContent = "DPAD LEFT";
+    if (gridActiveIndex - 1 >= 0) {
+      grids[gridActiveIndex].classList.remove("active")
+      gridActiveIndex -= 1;
+      grids[gridActiveIndex].classList.add("active")
+    }
   });
   dpadRightBtn.addEventListener("mousedown", () => {
-    screenDisplay.textContent = "DPAD RIGHT";
+    if (gridActiveIndex + 1 <= 8) {
+      grids[gridActiveIndex].classList.remove("active")
+      gridActiveIndex += 1;
+      grids[gridActiveIndex].classList.add("active")
+    }
   });
+
 
   //   FACE BUTTONS (A,B,X,Y)
 
@@ -112,4 +134,22 @@ document.addEventListener("DOMContentLoaded", () => {
   startBtn.addEventListener("mousedown", () => {
     screenDisplay.textContent = "START";
   });
+
+  // NAVIGATION
+  const gameGridContainer = document.querySelector("#game-grid")
+  const gridOne = document.querySelector("#grid-item1")
+  const gridTwo = document.querySelector("#grid-item2")
+  const gridThree = document.querySelector("#grid-item3")
+  const gridFour = document.querySelector("#grid-item4")
+  const gridFive = document.querySelector("#grid-item5")
+  const gridSix = document.querySelector("#grid-item6")
+  const gridSeven = document.querySelector("#grid-item7")
+  const gridEight = document.querySelector("#grid-item8")
+  const gridNine = document.querySelector("#grid-item9")
+
+  let grids = [gridOne, gridTwo, gridThree, gridFour, gridFive, gridSix, gridSeven, gridEight, gridNine]
+  let gridActiveIndex = 0 // gridOne 
+
+  grids[gridActiveIndex].classList.add('active')
+
 });
