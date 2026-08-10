@@ -16,7 +16,6 @@
 }
 
 
-
 .boot-display {
     position: absolute;
     inset: 0;
@@ -27,6 +26,9 @@
     align-items: center;
 }
 
+.text-screen {
+    visibility: hidden;
+}
 /* OS Status Bar */
 .status-bar {
     display: flex;

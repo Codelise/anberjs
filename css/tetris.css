@@ -1,0 +1,131 @@
+/* Tetris Game Container */
+/* Tetris Game Container */
+.tetris-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;  /* Changed from column to row */
+    background-color: #0c1616c7;
+    padding: calc(var(--u) * 8);
+    box-sizing: border-box;
+    gap: calc(var(--u) * 8);
+}
+
+/* Left side: Game board */
+.tetris-board {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(20, 1fr);
+    gap: 1px;
+    background-color: #000;
+    border: 2px solid #05e5f5;
+    border-radius: calc(var(--u) * 4);
+    padding: 2px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Tetris Header: Score, Level, Lines */
+.tetris-header {
+    display: flex;
+    flex-direction: column;  
+    gap: calc(var(--u) * 8);
+    padding: calc(var(--u) * 8);
+    background-color: #212829c7;
+    border-radius: calc(var(--u) * 4);
+    border: 1px solid #05e5f5;
+}
+
+.tetris-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--u) * 2);
+}
+
+
+.stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: calc(var(--u) * 8);
+    font-weight: 700;
+    color: #07949e;
+    letter-spacing: 0.1em;
+}
+
+.stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: calc(var(--u) * 14);
+    font-weight: 700;
+    color: #16c2ce;
+}
+
+/* Tetris Game Board */
+.tetris-board {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 1px;
+    background-color: #000;
+    border: 2px solid #05e5f5;
+    border-radius: calc(var(--u) * 4);
+    padding: 2px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.tetris-cell {
+    background-color: #0d171f;
+    border-radius: 1px;
+    transition: background-color 0.1s ease;
+}
+
+.tetris-cell.filled {
+    background-color: #16c2ce;
+    box-shadow: inset 0 0 4px rgba(5, 229, 245, 0.5);
+}
+
+/* Tetris piece colors */
+.tetris-cell.color-I { background-color: #00f0f0; }
+.tetris-cell.color-O { background-color: #f0f000; }
+.tetris-cell.color-T { background-color: #a000f0; }
+.tetris-cell.color-S { background-color: #00f000; }
+.tetris-cell.color-Z { background-color: #f00000; }
+.tetris-cell.color-J { background-color: #0000f0; }
+.tetris-cell.color-L { background-color: #f0a000; }
+
+/* Next Piece Preview */
+.tetris-next {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--u) * 8);
+    padding: calc(var(--u) * 8);
+    background-color: #212829c7;
+    border-radius: calc(var(--u) * 4);
+    border: 1px solid #05e5f5;
+}
+
+.next-label {
+    font-family: 'Space Mono', monospace;
+    font-size: calc(var(--u) * 10);
+    font-weight: 700;
+    color: #07949e;
+    letter-spacing: 0.1em;
+}
+
+.next-preview {
+    display: grid;
+    grid-template-columns: repeat(4, calc(var(--u) * 12));
+    grid-template-rows: repeat(4, calc(var(--u) * 12));
+    gap: 1px;
+    background-color: #0d171f;
+    padding: calc(var(--u) * 4);
+    border-radius: calc(var(--u) * 4);
+}
+
+.next-preview .tetris-cell {
+    width: 100%;
+    height: 100%;
+}
