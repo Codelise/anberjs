@@ -1,38 +1,45 @@
-const boardWidth = 10;
-const boardHeight = 16;
-let movePieceTimer = null;
-function createBoardCells() {
-  const tetrisBoard = document.querySelector("#tetrisBoard");
-  tetrisBoard.innerHTML = "";
+// // REPROGRAM WITH OWN LOGIC
+let movePieceTimer;
+const gridWidth = 9; // 10 grid columns
+const gridHeight = 15; // 16 grid rows
 
-  //   200 cells (10 wide x 20 height)
-  for (let y = 0; y < boardHeight; y++) {
-    for (let x = 0; x < boardWidth; x++) {
-      const cell = document.createElement("div");
-      cell.className = "tetris-cell";
-      tetrisBoard.appendChild(cell);
+const createGridDisplay = () => {
+  const tetrisGrid = document.querySelector("#tetrisBoard");
+  tetrisGrid.innerHTML = ""; // this stop the A button to recreate the grid resulting to empty space
+  for (let h = 0; h <= gridHeight; h++) {
+    // h++ to prevent infinite loop and crashing
+    for (let w = 0; w <= gridWidth; w++) {
+      // w++ to also prevent infinite loop and crashing
+      const gridCell = document.createElement("div");
+      gridCell.className = "tetris-cell"; // gives the created div a class = tetris-cell for css styling
+      tetrisGrid.appendChild(gridCell); // append the created div inside tetrisBoard
     }
   }
-}
+};
 
-// initialize game
+// displays the tetris game after the A button was clicked
 function startTetris() {
-  // createBoardCells();
-  // renderShape(tetrisShapes.J, 4, 0);
-  initializeLockBoard();
-  spawnNewPiece();
-  reRenderBoard();
-  movePieceTimer = setInterval(movePieceDown, 500);
+  createGridDisplay();
+  spawnShape();
 }
 
-// Make it globally available
-window.TetrisGame = {
+// Makes the function accessible (global) via other js files
+globalThis.TetrisGame = {
   start: startTetris,
 };
 
-// SHAPES
+// // SHAPES
 const tetrisShapes = {
-  I: { shape: [[1, 1, 1, 1]], color: "color-I" },
+  I: {
+    shape: [
+      [0, 1, 0],
+      [0, 1, 0],
+      [0, 1, 0],
+      [0, 1, 0],
+      [0, 1, 0],
+    ],
+    color: "color-I",
+  },
   J: {
     shape: [
       [1, 1, 1],
@@ -64,18 +71,51 @@ const tetrisShapes = {
   },
 };
 
-function renderShape(shape, startX, startY) {
-  const boardCells = document.querySelectorAll("#tetrisBoard .tetris-cell");
+const getRandomShape = () => {
+  const tetrisKeys = Object.keys(tetrisShapes); // converts tetrisShapes object into Array and get the Keys
 
+  const randomShapeIndex = Math.floor(Math.random() * tetrisKeys.length); // generate random Index base on tetrisShape index number
+
+  const shapeKey = tetrisKeys[randomShapeIndex]; // random generated shape Key
+
+  const combineKeyValue = tetrisShapes[shapeKey]; // random generated shape value
+  console.log(combineKeyValue);
+  return combineKeyValue; // for render function
+};
+
+// displays generated shape when called
+const spawnShape = () => {
+  let generatedShape = getRandomShape();
+  const startXPosition = 3;
+  const startYPosition = 0;
+  renderShape(generatedShape, startXPosition, startYPosition);
+};
+
+//
+const renderShape = (
+  shape,
+  startX,
+  startY, // shape = tetrisShape, startX and startY = target column and row
+) => {
+  const gridBoardCell = document.querySelectorAll("#tetrisBoard .tetris-cell");
+
+  //   shape.shape = tetrisShapes {shapes}
+  // Loops through each row inside the 2D matrix array.
   shape.shape.forEach((row, y) => {
+    // row = item in Array, y = current index of the row
+    // Loops through each individual cell inside the current row array.
     row.forEach((value, x) => {
+      // Checks if the current cell in the piece needs to be painted.
       if (value === 1) {
+        // This cell needs to be drawn at column boardX, row boardY on the game board.
         const boardX = startX + x;
         const boardY = startY + y;
 
-        const calculateIndex = boardY * boardWidth + boardX;
+        // Converts 2D grid coordinates $(\text{X, Y})$ into a single 1D index array number.
+        const calculateIndex = boardY * gridWidth + boardX;
 
-        const cell = boardCells[calculateIndex];
+        // Selects the specific <div> element from our DOM list corresponding to calculateIndex
+        const cell = gridBoardCell[calculateIndex];
 
         if (cell) {
           cell.classList.add("filled");
@@ -84,132 +124,4 @@ function renderShape(shape, startX, startY) {
       }
     });
   });
-  console.log("RUN");
-}
-
-let currentPiece = null;
-let xPosition = 0;
-let yposition = 0;
-
-let lockedBoard = [];
-
-function initializeLockBoard() {
-  lockedBoard = [];
-  for (let y = 0; y < boardHeight; y++) {
-    lockedBoard[y] = [];
-    for (let x = 0; x < boardWidth; x++) {
-      lockedBoard[y][x] = 0;
-    }
-  }
-}
-
-function spawnNewPiece() {
-  const shapeKeys = Object.keys(tetrisShapes);
-
-  const randomShapeKeys =
-    shapeKeys[Math.floor(Math.random() * shapeKeys.length)];
-  currentPiece = tetrisShapes[randomShapeKeys];
-
-  xPosition = Math.floor(boardWidth / 2) - 1;
-  yposition = 0;
-
-  if (!canmMovePiece(currentPiece, xPosition, yposition)) {
-    stopGame();
-    alert("Game Over!");
-  }
-}
-
-function canmMovePiece(piece, newX, newY) {
-  for (let y = 0; y < piece.shape.length; y++) {
-    for (let x = 0; x < piece.shape[y].length; x++) {
-      if (piece.shape[y][x] === 1) {
-        const boardX = newX + x;
-        const boardY = newY + y;
-
-        // hit side wall
-        if (boardX < 0 || boardX >= boardWidth) {
-          return false;
-        }
-
-        // hit bottom
-        if (boardY >= boardHeight) {
-          return false;
-        }
-
-        // locked block stack
-        if (boardY >= 0 && lockedBoard[boardY][boardX] !== 0) {
-          return false;
-        }
-      }
-    }
-  }
-  return true; // no collision
-}
-
-function lockPiece() {
-  currentPiece.shape.forEach((row, y) => {
-    row.forEach((value, x) => {
-      if (value === 1) {
-        const boardX = xPosition + x;
-        const boardY = yposition + y;
-
-        if (boardY >= 0) {
-          lockedBoard[boardY][boardX] = currentPiece.color;
-        }
-      }
-    });
-  });
-
-  spawnNewPiece();
-}
-
-function reRenderBoard() {
-  const boardCells = document.querySelectorAll("#tetrisBoard .tetris-cell");
-
-  for (let y = 0; y < boardHeight; y++) {
-    for (let x = 0; x < boardWidth; x++) {
-      const cellIndex = y * boardWidth + x;
-      const cell = boardCells[cellIndex];
-
-      // TO CONTINUE
-      cell.className = "tetris-cell";
-
-      if (lockedBoard[y][x] !== 0) {
-        cell.classList.add("filled");
-        cell.classList.add(lockedBoard[y][x]);
-      }
-    }
-  }
-  if (currentPiece) {
-    currentPiece.shape.forEach((row, y) => {
-      row.forEach((value, x) => {
-        if (value === 1) {
-          const boardX = xPosition + x;
-          const boardY = yposition + y;
-
-          if (
-            boardY >= 0 &&
-            boardY < boardHeight &&
-            boardX >= 0 &&
-            boardX < boardWidth
-          ) {
-            const index = boardY * boardWidth + boardX;
-            const cell = boardCells[index];
-            cell.classList.add("filled");
-            cell.classList.add(currentPiece.color);
-          }
-        }
-      });
-    });
-  }
-}
-
-function movePieceDown() {
-  if (movePiece(xPosition, yposition + 1)) {
-    yposition++;
-  } else {
-    lockPiece();
-  }
-
-  reRenderBoard();
-}
+};

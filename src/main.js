@@ -176,10 +176,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // TEMPORARY TEST - remove later
   btnA.addEventListener("mousedown", () => {
-    // Show tetris, hide launcher
-    statusBar.style.display = "none";
-    document.getElementById("launcherCanvas").style.display = "none";
-    document.getElementById("tetrisContainer").style.display = "flex";
-    TetrisGame.start();
+    if (gridOne) {
+      // Show tetris, hide launcher
+      statusBar.style.display = "none";
+      document.getElementById("launcherCanvas").style.display = "none";
+      document.getElementById("tetrisContainer").style.display = "flex";
+      TetrisGame.start();
+    }
   });
 });
