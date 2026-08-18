@@ -1,14 +1,14 @@
 // // REPROGRAM WITH OWN LOGIC
 let movePieceTimer;
-const gridWidth = 9; // 10 grid columns
-const gridHeight = 15; // 16 grid rows
+const gridWidth = 10; // 10 grid columns
+const gridHeight = 20; // 16 grid rows
 
 const createGridDisplay = () => {
   const tetrisGrid = document.querySelector("#tetrisBoard");
   tetrisGrid.innerHTML = ""; // this stop the A button to recreate the grid resulting to empty space
-  for (let h = 0; h <= gridHeight; h++) {
+  for (let h = 0; h < gridHeight; h++) {
     // h++ to prevent infinite loop and crashing
-    for (let w = 0; w <= gridWidth; w++) {
+    for (let w = 0; w < gridWidth; w++) {
       // w++ to also prevent infinite loop and crashing
       const gridCell = document.createElement("div");
       gridCell.className = "tetris-cell"; // gives the created div a class = tetris-cell for css styling
@@ -73,22 +73,28 @@ const tetrisShapes = {
 
 const getRandomShape = () => {
   const tetrisKeys = Object.keys(tetrisShapes); // converts tetrisShapes object into Array and get the Keys
-
   const randomShapeIndex = Math.floor(Math.random() * tetrisKeys.length); // generate random Index base on tetrisShape index number
-
   const shapeKey = tetrisKeys[randomShapeIndex]; // random generated shape Key
-
   const combineKeyValue = tetrisShapes[shapeKey]; // random generated shape value
-  console.log(combineKeyValue);
   return combineKeyValue; // for render function
 };
 
 // displays generated shape when called
+let currentShape;
+let startXPosition = 3;
+let startYPosition = 0;
+
 const spawnShape = () => {
-  let generatedShape = getRandomShape();
-  const startXPosition = 3;
-  const startYPosition = 0;
-  renderShape(generatedShape, startXPosition, startYPosition);
+  currentShape = getRandomShape();
+  currentPositionX = 3;
+  currentPositionY = 0;
+
+  drawPiece(currentShape, currentPositionX, currentPositionY);
+  if (movePieceTimer) {
+    clearInterval(movePieceTimer);
+  }
+
+  movePieceTimer = setInterval(moveDown, 500);
 };
 
 //
@@ -125,3 +131,57 @@ const renderShape = (
     });
   });
 };
+
+const moveDown = () => {
+  clearPiece(currentShape, currentPositionX, currentPositionY);
+  currentPositionY += 1;
+  drawPiece(currentShape, currentPositionX, currentPositionY);
+};
+
+const drawPiece = (shape, currentX, currentY) => {
+  const tetrisCell = document.querySelectorAll("#tetrisBoard .tetris-cell");
+  // currentShape = shape & color
+  shape.shape.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value === 1) {
+        const boardX = currentX + x;
+        const boardY = currentY + y;
+
+        const calculate2DArray = boardY * gridWidth + boardX;
+
+        const converted1DArray = tetrisCell[calculate2DArray];
+
+        if (converted1DArray) {
+          converted1DArray.classList.add("filled");
+          converted1DArray.classList.add(shape.color);
+        }
+      }
+    });
+  });
+};
+
+const clearPiece = (shape, currentX, currentY) => {
+  const tetrisCell = document.querySelectorAll("#tetrisBoard .tetris-cell");
+  shape.shape.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value === 1) {
+        const boardX = currentX + x;
+        const boardY = currentY + y;
+
+        const calculate2DArray = boardY * gridWidth + boardX;
+
+        const converted1DArray = tetrisCell[calculate2DArray];
+
+        if (converted1DArray) {
+          converted1DArray.classList.remove("filled");
+          converted1DArray.classList.remove(shape.color);
+        }
+      }
+    });
+  });
+};
+
+// FOR TOMORROW
+// LOCK PIECE
+// STOCK PIECE
+// MOVE LEFT AND RIGHT PIECE

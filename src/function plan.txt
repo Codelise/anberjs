@@ -1,0 +1,42 @@
+Function
+
+Purpose
+
+Maps to Plan
+
+clearPiece()
+
+Erases .filled and .color -*
+classes from the current position
+before moving.
+
+Step 4
+
+canMove(shape, newX,
+newY)
+
+Checks if the new target position
+hits the board floor or any
+previously locked pieces. Returns
+true or false .
+
+Steps 5 & 6
+
+lockPiece()
+
+Steps 5 & 6
+
+moveDown()
+
+Transfers the falling piece's blocks
+onto the stationary game board
+array so future pieces can stack
+on top of it. Then spawns the next
+piece.
+
+The engine function that
+coordinates clearing, checking
+collision, updating Y, and either
+drawing or locking.
+
+Steps 1, 2, 3
