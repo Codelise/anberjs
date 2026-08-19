@@ -2,6 +2,7 @@
 let movePieceTimer;
 const gridWidth = 10; // 10 grid columns
 const gridHeight = 20; // 16 grid rows
+let newGridBoard = [];
 
 const createGridDisplay = () => {
   const tetrisGrid = document.querySelector("#tetrisBoard");
@@ -19,6 +20,7 @@ const createGridDisplay = () => {
 
 // displays the tetris game after the A button was clicked
 function startTetris() {
+  createGridBoard();
   createGridDisplay();
   spawnShape();
 }
@@ -133,9 +135,15 @@ const renderShape = (
 };
 
 const moveDown = () => {
-  clearPiece(currentShape, currentPositionX, currentPositionY);
-  currentPositionY += 1;
-  drawPiece(currentShape, currentPositionX, currentPositionY);
+  const pieceHeight = currentShape.shape.length;
+
+  if (currentPositionY + pieceHeight < gridHeight) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    currentPositionY += 1;
+    drawPiece(currentShape, currentPositionX, currentPositionY);
+  } else {
+    lockPiece(currentShape, currentPositionX, currentPositionY);
+  }
 };
 
 const drawPiece = (shape, currentX, currentY) => {
@@ -181,7 +189,56 @@ const clearPiece = (shape, currentX, currentY) => {
   });
 };
 
+const movePieceLeft = () => {
+  clearPiece(currentShape, currentPositionX, currentPositionY);
+  currentPositionX -= 1;
+  drawPiece(currentShape, currentPositionX, currentPositionY);
+};
+
+const movePieceRight = () => {
+  clearPiece(currentShape, currentPositionX, currentPositionY);
+  currentPositionX += 1;
+  drawPiece(currentShape, currentPositionX, currentPositionY);
+};
+
+// left & right movement
+window.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "ArrowLeft":
+    case "a":
+      movePieceLeft();
+      break;
+    case "ArrowRight":
+    case "d":
+      movePieceRight();
+      break;
+  }
+});
+
+const createGridBoard = () => {
+  newGridBoard = Array.from({ length: gridHeight }, () =>
+    Array(gridWidth).fill(0),
+  );
+  console.log(newGridBoard);
+};
+
+const lockPiece = (currentShape, currentPositionX, currentPositionY) => {
+  currentShape.shape.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if (value === 1) {
+        const boardX = currentPositionX + x;
+        const boardY = currentPositionY + y;
+        newGridBoard[boardY][boardX] = currentShape.color;
+
+        // full lines to be implemented
+      }
+    });
+  });
+  currentPositionX = 3;
+  currentPositionY = 0;
+  spawnShape();
+};
 // FOR TOMORROW
-// LOCK PIECE
-// STOCK PIECE
-// MOVE LEFT AND RIGHT PIECE
+// COLLISION DETECTION
+// STACK PIECE
+// ADD MOBILE TOUCH EVENTS
