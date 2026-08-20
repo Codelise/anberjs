@@ -40,6 +40,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   });
 
+  // for mobile
+  menuBtn.addEventListener("touchstart", () => {
+    menuHoldTimer = setTimeout(() => {
+      statusBar.style.display = "none";
+      bootDisplay.textContent = "ANBERJS";
+      bootDisplay.style.display = "flex";
+      screenDisplay.style.zIndex = "1";
+      bootDisplay.style.zIndex = "100";
+      bootDisplay.style.fontSize = "40px";
+      homeScreen.style.display = "none";
+      // Goes to homescreen
+      setTimeout(() => {
+        bootDisplay.style.display = "none";
+        statusBar.style.display = "flex";
+        homeScreen.style.display = "flex";
+        homeScreen.style.flexDirection = "column";
+        bootFlag = true;
+        localStorage.setItem("homeScreen", "home");
+      }, 4000);
+    }, 2000);
+  });
+
   menuBtn.addEventListener("mouseup", function () {
     clearTimeout(menuHoldTimer);
   });

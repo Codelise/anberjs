@@ -50,6 +50,13 @@ const tetrisShapes = {
     color: "color-J",
   },
 
+  S: {
+    shape: [
+      [0, 1, 1],
+      [1, 1, 0],
+    ],
+    color: "color-S",
+  },
   Z: {
     shape: [
       [1, 1, 0],
@@ -62,14 +69,14 @@ const tetrisShapes = {
       [1, 1],
       [1, 1],
     ],
-    color: "color-Box",
+    color: "color-O",
   },
   ASWD: {
     shape: [
       [0, 1, 0],
       [1, 1, 1],
     ],
-    color: "color-shape",
+    color: "color-T",
   },
 };
 
@@ -134,16 +141,43 @@ const renderShape = (
   });
 };
 
-const moveDown = () => {
-  const pieceHeight = currentShape.shape.length;
+const canMovePiece = (currentShape, proposedX, proposedY) => {
+  const shape = currentShape.shape;
+  console.log(shape);
 
-  if (currentPositionY + pieceHeight < gridHeight) {
-    clearPiece(currentShape, currentPositionX, currentPositionY);
-    currentPositionY += 1;
-    drawPiece(currentShape, currentPositionX, currentPositionY);
-  } else {
-    lockPiece(currentShape, currentPositionX, currentPositionY);
+  for (let y = 0; y < shape.length; y++) {
+    console.log("Outer Loop Row: ", y);
+    for (let x = 0; x < shape[y].length; x++) {
+      console.log("Inner Loop Column: ", x);
+      if (shape[y][x] === 1) {
+        const nextX = proposedX + x;
+        const nextY = proposedY + y;
+
+        // left / right wall collision
+        // < 0 = far left
+        if (nextX < 0 || nextX >= gridWidth) {
+          console.log("Hit wall!");
+          return false;
+        }
+
+        // floor collision
+        if (nextY >= gridHeight) {
+          console.log("Hit floor!");
+          return false;
+        }
+
+        // block stacking
+        // nextY >= 0 = first Y Row, newGridBoard[nextY][nextX] = a piece was already at the bottom, stacked it up!
+        if (nextY >= 0) {
+          const targetCell = newGridBoard[nextY][nextX];
+          if (targetCell !== 0) {
+            return false;
+          }
+        }
+      }
+    }
   }
+  return true;
 };
 
 const drawPiece = (shape, currentX, currentY) => {
@@ -189,31 +223,33 @@ const clearPiece = (shape, currentX, currentY) => {
   });
 };
 
+const moveDown = () => {
+  if (canMovePiece(currentShape, currentPositionX, currentPositionY + 1)) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    currentPositionY += 1;
+    drawPiece(currentShape, currentPositionX, currentPositionY);
+  } else {
+    lockPiece(currentShape, currentPositionX, currentPositionY);
+  }
+};
+
 const movePieceLeft = () => {
-  clearPiece(currentShape, currentPositionX, currentPositionY);
-  currentPositionX -= 1;
-  drawPiece(currentShape, currentPositionX, currentPositionY);
+  const proposedX = currentPositionX - 1;
+  if (canMovePiece(currentShape, proposedX, currentPositionY)) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    currentPositionX = proposedX;
+    drawPiece(currentShape, currentPositionX, currentPositionY);
+  }
 };
 
 const movePieceRight = () => {
-  clearPiece(currentShape, currentPositionX, currentPositionY);
-  currentPositionX += 1;
-  drawPiece(currentShape, currentPositionX, currentPositionY);
-};
-
-// left & right movement
-window.addEventListener("keydown", (event) => {
-  switch (event.key) {
-    case "ArrowLeft":
-    case "a":
-      movePieceLeft();
-      break;
-    case "ArrowRight":
-    case "d":
-      movePieceRight();
-      break;
+  const proposedX = currentPositionX + 1;
+  if (canMovePiece(currentShape, proposedX, currentPositionY)) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    currentPositionX = proposedX;
+    drawPiece(currentShape, currentPositionX, currentPositionY);
   }
-});
+};
 
 const createGridBoard = () => {
   newGridBoard = Array.from({ length: gridHeight }, () =>
@@ -234,11 +270,85 @@ const lockPiece = (currentShape, currentPositionX, currentPositionY) => {
       }
     });
   });
+
+  clearFullLines();
+  drawBoard();
   currentPositionX = 3;
   currentPositionY = 0;
   spawnShape();
 };
-// FOR TOMORROW
-// COLLISION DETECTION
-// STACK PIECE
+
+// lock piece permanent
+const drawBoard = () => {
+  const tetrisCell = document.querySelectorAll("#tetrisBoard .tetris-cell");
+
+  newGridBoard.forEach((row, y) => {
+    row.forEach((value, x) => {
+      const cellIndex = y * gridWidth + x;
+      const cell = tetrisCell[cellIndex];
+
+      if (cell) {
+        cell.className = "tetris-cell";
+        if (value !== 0) {
+          cell.classList.add("filled", value);
+        }
+      }
+    });
+  });
+};
+
+let score = 0;
+// clear full line and update score
+const clearFullLines = () => {
+  let linesCleared = 0;
+  for (let y = 0; y < gridHeight; y++) {
+    const isRowFull = newGridBoard[y].every((cell) => cell !== 0);
+    if (isRowFull) {
+      newGridBoard.splice(y, 1); // removes the fulled row
+      newGridBoard.unshift(Array(gridWidth).fill(0)); // added new row with 0 values (empty spaces)
+      linesCleared++;
+      y--; // goes back to first index row y
+    }
+  }
+
+  if (linesCleared > 0) {
+    score += linesCleared + 4;
+
+    const scoreBoard = document.querySelector("#tetrisScore");
+    scoreBoard.textContent = score;
+  }
+};
+
 // ADD MOBILE TOUCH EVENTS
+// ARROW KEYS = left, right, down movement
+window.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "ArrowDown":
+    case "s":
+      moveDown();
+      break;
+    case "ArrowLeft":
+    case "a":
+      movePieceLeft();
+      break;
+    case "ArrowRight":
+    case "d":
+      movePieceRight();
+      break;
+  }
+});
+
+// DPAD CONTROLS
+const dpadRightBtn = document.querySelector("#btn-right");
+const dpadLeftBtn = document.querySelector("#btn-left");
+const dpadDownBtn = document.querySelector("#btn-down");
+
+dpadDownBtn.addEventListener("click", () => {
+  moveDown();
+});
+dpadLeftBtn.addEventListener("click", () => {
+  movePieceLeft();
+});
+dpadRightBtn.addEventListener("click", () => {
+  movePieceRight();
+});

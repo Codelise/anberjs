@@ -1,0 +1,1 @@
+  // currentShape.shape.forEach((row, y) => {
