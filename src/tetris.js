@@ -20,6 +20,8 @@ const createGridDisplay = () => {
 
 // displays the tetris game after the A button was clicked
 function startTetris() {
+  currentShape = getRandomShape();
+  nextShape = getRandomShape();
   createGridBoard();
   createGridDisplay();
   spawnShape();
@@ -90,6 +92,7 @@ const getRandomShape = () => {
 
 // displays generated shape when called
 let currentShape;
+let nextShape;
 let startXPosition = 3;
 let startYPosition = 0;
 
@@ -106,7 +109,6 @@ const spawnShape = () => {
   movePieceTimer = setInterval(moveDown, 500);
 };
 
-//
 const renderShape = (
   shape,
   startX,
@@ -223,6 +225,7 @@ const clearPiece = (shape, currentX, currentY) => {
   });
 };
 
+// MOVEMENT
 const moveDown = () => {
   if (canMovePiece(currentShape, currentPositionX, currentPositionY + 1)) {
     clearPiece(currentShape, currentPositionX, currentPositionY);
@@ -251,11 +254,70 @@ const movePieceRight = () => {
   }
 };
 
+// rotate piece clockwise
+const rotatePieceClockWise = () => {
+  const originalPiece = currentShape.shape;
+  const oldRow = originalPiece.length;
+  const oldCol = originalPiece[0].length;
+  const rotatedPiece = Array.from({ length: oldCol }, () =>
+    Array(oldRow).fill(0),
+  );
+
+  for (let y = 0; y < oldRow; y++) {
+    for (let x = 0; x < oldCol; x++) {
+      rotatedPiece[x][oldRow - 1 - y] = originalPiece[y][x];
+    }
+  }
+
+  const newRotatedPiece = { shape: rotatedPiece, color: currentShape.color };
+
+  if (canMovePiece(newRotatedPiece, currentPositionX, currentPositionY)) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    currentShape.shape = rotatedPiece;
+    drawPiece(currentShape, currentPositionX, currentPositionY);
+  } else {
+    return false;
+  }
+};
+
+// rotate piece counterclockwise
+const rotatePieceCounterClockWise = () => {
+  const originalPiece = currentShape.shape;
+  const oldRow = originalPiece.length;
+  const oldCol = originalPiece[0].length;
+  const rotatedPiece = Array.from({ length: oldCol }, () =>
+    Array(oldRow).fill(0),
+  );
+
+  for (let y = 0; y < oldRow; y++) {
+    for (let x = 0; x < oldCol; x++) {
+      rotatedPiece[oldCol - 1 - x][y] = originalPiece[y][x];
+    }
+  }
+
+  const newRotatedPiece = { shape: rotatedPiece, color: currentShape.color };
+
+  if (canMovePiece(newRotatedPiece, currentPositionX, currentPositionY)) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    currentShape.shape = rotatedPiece;
+    drawPiece(currentShape, currentPositionX, currentPositionY);
+  }
+};
+
+// hard drop (Skip all rows)
+const hardDrop = () => {
+  clearPiece(currentShape, currentPositionX, currentPositionY);
+  while (canMovePiece(currentShape, currentPositionX, currentPositionY + 1)) {
+    currentPositionY++;
+  }
+  drawPiece(currentShape, currentPositionX, currentPositionY);
+  lockPiece(currentShape, currentPositionX, currentPositionY);
+};
+
 const createGridBoard = () => {
   newGridBoard = Array.from({ length: gridHeight }, () =>
     Array(gridWidth).fill(0),
   );
-  console.log(newGridBoard);
 };
 
 const lockPiece = (currentShape, currentPositionX, currentPositionY) => {
@@ -265,8 +327,6 @@ const lockPiece = (currentShape, currentPositionX, currentPositionY) => {
         const boardX = currentPositionX + x;
         const boardY = currentPositionY + y;
         newGridBoard[boardY][boardX] = currentShape.color;
-
-        // full lines to be implemented
       }
     });
   });
@@ -335,6 +395,17 @@ window.addEventListener("keydown", (event) => {
     case "d":
       movePieceRight();
       break;
+    case "x":
+      rotatePieceClockWise();
+      break;
+    case "z":
+      rotatePieceCounterClockWise();
+      break;
+    case "":
+    case "Spacebar":
+      event.preventDefault();
+      hardDrop();
+      break;
   }
 });
 
@@ -352,3 +423,23 @@ dpadLeftBtn.addEventListener("click", () => {
 dpadRightBtn.addEventListener("click", () => {
   movePieceRight();
 });
+
+// A B X Y CONTROLS
+const YButton = document.querySelector("#btn-y");
+YButton.addEventListener("click", () => {
+  rotatePieceClockWise();
+});
+
+const AButton = document.querySelector("#btn-a");
+AButton.addEventListener("click", () => {
+  rotatePieceCounterClockWise();
+});
+const BButton = document.querySelector("#btn-b");
+BButton.addEventListener("click", () => {
+  hardDrop();
+});
+
+// TO DO:
+// SKIP PIECE
+// RENDER NEXT PIECE
+// GAME OVER
