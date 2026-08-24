@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   });
 
-  // for mobile
+  // for mobi
   menuBtn.addEventListener("touchstart", () => {
     menuHoldTimer = setTimeout(() => {
       statusBar.style.display = "none";

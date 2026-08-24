@@ -25,6 +25,7 @@ function startTetris() {
   createGridBoard();
   createGridDisplay();
   spawnShape();
+  drawNextShape();
 }
 
 // Makes the function accessible (global) via other js files
@@ -106,7 +107,39 @@ const spawnShape = () => {
     clearInterval(movePieceTimer);
   }
 
-  movePieceTimer = setInterval(moveDown, 500);
+  movePieceTimer = setInterval(moveDown, 1000);
+};
+
+// SKIP CURRENT SHAPE
+const spawnNextShape = () => {
+  if (!drawPiece(currentShape, currentPositionX, currentPositionY)) {
+    clearPiece(currentShape, currentPositionX, currentPositionY);
+    nextShape = spawnShape();
+    XButton.disabled = true;
+  }
+};
+
+// Next shape View
+// TO BE CONTINUED
+const drawNextShape = () => {
+  const nextShapeView = document.querySelector("#tetrisNext");
+
+  nextShapeView.innerHTML = "";
+
+  const matrix = nextShape.shape;
+
+  matrix.forEach((row) => {
+    row.forEach((value) => {
+      const tetrisCell = document.createElement("div");
+      tetrisCell.classList.add("tetris-cell");
+
+      if (value !== 0) {
+        tetrisCell.classList.add("filled", nextShape.color);
+      }
+
+      nextShapeView.append(tetrisCell);
+    });
+  });
 };
 
 const renderShape = (
@@ -199,6 +232,7 @@ const drawPiece = (shape, currentX, currentY) => {
           converted1DArray.classList.add("filled");
           converted1DArray.classList.add(shape.color);
         }
+        drawNextShape();
       }
     });
   });
@@ -406,6 +440,9 @@ window.addEventListener("keydown", (event) => {
       event.preventDefault();
       hardDrop();
       break;
+    case "c":
+      spawnNextShape();
+      break;
   }
 });
 
@@ -439,6 +476,10 @@ BButton.addEventListener("click", () => {
   hardDrop();
 });
 
+const XButton = document.querySelector("#btn-x");
+XButton.addEventListener("click", () => {
+  spawnNextShape();
+});
 // TO DO:
 // SKIP PIECE
 // RENDER NEXT PIECE
