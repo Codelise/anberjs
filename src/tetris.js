@@ -41,7 +41,6 @@ const tetrisShapes = {
       [0, 1, 0],
       [0, 1, 0],
       [0, 1, 0],
-      [0, 1, 0],
     ],
     color: "color-I",
   },
@@ -112,36 +111,53 @@ const spawnShape = () => {
 
 // SKIP CURRENT SHAPE
 const spawnNextShape = () => {
-  if (!drawPiece(currentShape, currentPositionX, currentPositionY)) {
-    clearPiece(currentShape, currentPositionX, currentPositionY);
-    nextShape = spawnShape();
-    XButton.disabled = true;
+  clearPiece(currentShape, currentPositionX, currentPositionY);
+  currentShape = nextShape;
+  nextShape = getRandomShape();
+
+  currentPositionX = 3;
+  currentPositionY = 0;
+
+  drawPiece(currentShape, currentPositionX, currentPositionY);
+  drawNextShape();
+
+  if (movePieceTimer) {
+    clearInterval(movePieceTimer);
   }
+
+  movePieceTimer = setInterval(moveDown, 1000);
 };
 
 // Next shape View
-// TO BE CONTINUED
 const drawNextShape = () => {
   const nextShapeView = document.querySelector("#tetrisNext");
 
+  if (!nextShapeView || !nextShape) {
+    return;
+  }
+
   nextShapeView.innerHTML = "";
 
-  const matrix = nextShape.shape;
+  const rows = nextShape.shape.length;
+  const columns = nextShape.shape[0].length;
 
-  matrix.forEach((row) => {
+  nextShapeView.style.gridTemplateColumns = `repeat(${columns}, 10px)`;
+
+  nextShapeView.style.gridTemplateRows = `repeat(${rows}, 10px)`;
+
+  nextShape.shape.forEach((row) => {
     row.forEach((value) => {
-      const tetrisCell = document.createElement("div");
-      tetrisCell.classList.add("tetris-cell");
+      const cell = document.createElement("div");
+      cell.classList.add("tetris-cell");
 
-      if (value !== 0) {
-        tetrisCell.classList.add("filled", nextShape.color);
+      if (value === 1) {
+        cell.classList.add("filled", nextShape.color);
       }
 
-      nextShapeView.append(tetrisCell);
+      nextShapeView.appendChild(cell);
     });
   });
 };
-
 const renderShape = (
   shape,
   startX,
@@ -481,6 +497,4 @@ XButton.addEventListener("click", () => {
   spawnNextShape();
 });
 // TO DO:
-// SKIP PIECE
-// RENDER NEXT PIECE
 // GAME OVER

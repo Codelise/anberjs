@@ -1,42 +1,10 @@
-Function
+spawn next piece
+1. Kunin current piece
+2. clear current piece
+3. spawn next piece
+4. can move next piece
 
-Purpose
-
-Maps to Plan
-
-clearPiece()
-
-Erases .filled and .color -*
-classes from the current position
-before moving.
-
-Step 4
-
-canMove(shape, newX,
-newY)
-
-Checks if the new target position
-hits the board floor or any
-previously locked pieces. Returns
-true or false .
-
-Steps 5 & 6
-
-lockPiece()
-
-Steps 5 & 6
-
-moveDown()
-
-Transfers the falling piece's blocks
-onto the stationary game board
-array so future pieces can stack
-on top of it. Then spawns the next
-piece.
-
-The engine function that
-coordinates clearing, checking
-collision, updating Y, and either
-drawing or locking.
-
-Steps 1, 2, 3
+view next piece
+1. Kunin mo ung id ng div pang display
+2. Kunin mo ung spawn next piece
+3. append mo ung next piece sa div
