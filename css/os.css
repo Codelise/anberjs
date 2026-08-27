@@ -13,6 +13,7 @@
   position: relative;
   color: #16c2ce;
   box-sizing: border-box;
+  padding: 0;
 }
 
 .boot-display {
@@ -33,7 +34,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: calc(var(--u) * 4) calc(var(--u) * 16);
+  padding: calc(var(--u) * 6) calc(var(--u) * 18);
   width: 100%;
   border-bottom: 1px solid #05e5f5;
   background-color: #212829c7;
@@ -44,7 +45,7 @@
 
 .system-title {
   font-family: "Space Mono", monospace;
-  font-size: calc(var(--u) * 12);
+  font-size: calc(var(--u) * 14);
   line-height: 1.33;
   letter-spacing: 0.1em;
   font-weight: 700;
@@ -53,18 +54,19 @@
 
 .status-icons {
   display: flex;
-  gap: calc(var(--u) * 8);
+  gap: calc(var(--u) * 10);
 }
 
 .status-icons .icon {
   color: #16c2ce;
-  font-size: calc(var(--u) * 14);
+  font-size: calc(var(--u) * 16);
 }
 
 /* Launcher Screen & 3x3 Grid */
 .launcher-canvas {
+  width: 100%;
   flex: 1;
-  padding: calc(var(--u) * 8);
+  padding: 0.75rem;
   background-color: #0c1616c7;
   overflow: hidden;
   display: flex;
@@ -75,7 +77,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: calc(var(--u) * 6);
+  gap: calc(var(--u) * 8);
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -85,13 +87,13 @@
 .grid-item {
   border: 1px solid #07949e;
   border-radius: calc(var(--u) * 4);
-  padding: calc(var(--u) * 4);
+  padding: calc(var(--u) * 6);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: calc(var(--u) * 4);
+  gap: calc(var(--u) * 6);
   transition: all 0.1s ease;
   box-sizing: border-box;
   overflow: hidden;
@@ -111,11 +113,11 @@
 }
 
 .grid-item .icon-wrapper .material-symbols-outlined {
-  font-size: calc(var(--u) * 20);
+  font-size: calc(var(--u) * 26);
 }
 
 .grid-item .game-title {
-  font-size: calc(var(--u) * 8);
+  font-size: calc(var(--u) * 10);
   line-height: 1.25;
   font-family: "JetBrains Mono", monospace;
   color: #16c2ce;
@@ -123,8 +125,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: calc(var(--u) * 4);
-  padding-right: calc(var(--u) * 4);
+  padding-left: calc(var(--u) * 6);
+  padding-right: calc(var(--u) * 6);
   box-sizing: border-box;
 }
 
@@ -132,4 +134,30 @@
 .grid-item.active {
   border: 2px solid #16c2ce;
   background-color: #2b6f74d0;
+}
+
+@media (max-width: 420px) {
+  .status-bar {
+    padding-inline: calc(var(--u) * 12);
+  }
+
+  .launcher-canvas {
+    padding: 0.5rem;
+  }
+
+  .game-grid {
+    gap: calc(var(--u) * 6);
+  }
+
+  .grid-item {
+    padding: calc(var(--u) * 4);
+  }
+
+  .grid-item .icon-wrapper .material-symbols-outlined {
+    font-size: calc(var(--u) * 22);
+  }
+
+  .grid-item .game-title {
+    font-size: calc(var(--u) * 9);
+  }
 }

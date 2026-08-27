@@ -101,6 +101,11 @@ const spawnShape = () => {
   currentPositionX = 3;
   currentPositionY = 0;
 
+  if (!canMovePiece(currentShape, currentPositionX, currentPositionY)) {
+    gameOver();
+    return;
+  }
+
   drawPiece(currentShape, currentPositionX, currentPositionY);
   if (movePieceTimer) {
     clearInterval(movePieceTimer);
@@ -117,6 +122,11 @@ const spawnNextShape = () => {
 
   currentPositionX = 3;
   currentPositionY = 0;
+
+  if (!canMovePiece(currentShape, currentPositionX, currentPositionY)) {
+    gameOver();
+    return;
+  }
 
   drawPiece(currentShape, currentPositionX, currentPositionY);
   drawNextShape();
@@ -141,9 +151,9 @@ const drawNextShape = () => {
   const rows = nextShape.shape.length;
   const columns = nextShape.shape[0].length;
 
-  nextShapeView.style.gridTemplateColumns = `repeat(${columns}, 10px)`;
+  nextShapeView.style.gridTemplateColumns = `repeat(${columns}, var(--preview-cell-size))`;
 
-  nextShapeView.style.gridTemplateRows = `repeat(${rows}, 10px)`;
+  nextShapeView.style.gridTemplateRows = `repeat(${rows}, var(--preview-cell-size))`;
 
   nextShape.shape.forEach((row) => {
     row.forEach((value) => {
@@ -158,12 +168,14 @@ const drawNextShape = () => {
     });
   });
 };
+
 const renderShape = (
   shape,
   startX,
   startY, // shape = tetrisShape, startX and startY = target column and row
 ) => {
   const gridBoardCell = document.querySelectorAll("#tetrisBoard .tetris-cell");
+  drawNextShape();
 
   //   shape.shape = tetrisShapes {shapes}
   // Loops through each row inside the 2D matrix array.
@@ -283,6 +295,7 @@ const moveDown = () => {
     drawPiece(currentShape, currentPositionX, currentPositionY);
   } else {
     lockPiece(currentShape, currentPositionX, currentPositionY);
+    spawnNextShape();
   }
 };
 
@@ -362,6 +375,7 @@ const hardDrop = () => {
   }
   drawPiece(currentShape, currentPositionX, currentPositionY);
   lockPiece(currentShape, currentPositionX, currentPositionY);
+  spawnNextShape();
 };
 
 const createGridBoard = () => {
@@ -408,6 +422,7 @@ const drawBoard = () => {
 };
 
 let score = 0;
+let highScore = 0;
 // clear full line and update score
 const clearFullLines = () => {
   let linesCleared = 0;
@@ -496,5 +511,52 @@ const XButton = document.querySelector("#btn-x");
 XButton.addEventListener("click", () => {
   spawnNextShape();
 });
-// TO DO:
-// GAME OVER
+
+let isGameOver = false;
+
+const tetrisBoard = document.querySelector("#tetrisBoard");
+const gameOver = () => {
+  clearInterval(movePieceTimer);
+  isGameOver = true;
+  if (score > highScore) {
+    highScore = score;
+    document.querySelector("#tetrisHighScore").textContent = highScore;
+  }
+  tetrisBoard.innerHTML = "";
+  tetrisBoard.textContent = "GAME OVER";
+  tetrisBoard.style.display = "flex";
+  tetrisBoard.style.justifyContent = "center";
+  tetrisBoard.style.alignItems = "center";
+};
+
+// TO DO RESTART GAME
+const restartGame = () => {
+  clearInterval(movePieceTimer);
+  isGameOver = false;
+  score = 0;
+
+  const tetrisContainer = document.querySelector("#tetrisContainer");
+  const scoreBoard = document.querySelector("#tetrisScore");
+
+  tetrisContainer.style.display = "flex";
+
+  scoreBoard.textContent = score;
+
+  tetrisBoard.innerHTML = "";
+  // resets the css
+  tetrisBoard.style.display = "";
+  tetrisBoard.style.justifyContent = "";
+  tetrisBoard.style.alignItems = "";
+
+  currentPositionX = 3;
+  currentPositionY = 0;
+  startTetris();
+};
+
+const startBtn = document.querySelector("#btn-start");
+startBtn.addEventListener("click", () => {
+  restartGame();
+});
+
+// TO DO
+// EVENTS FOR MOBILE

@@ -151,22 +151,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.querySelector("#btn-start");
   let startHolder;
 
-  startBtn.addEventListener("mousedown", () => {
-    startHolder = setTimeout(() => {
-      screenDisplay.style.zIndex = "-1";
-    }, 2000);
-  });
-
-  startBtn.addEventListener("mouseup", () => {
-    clearTimeout(startHolder);
-  });
-  selectBtn.addEventListener("mousedown", () => {
-    screenDisplay.textContent = "SELECT";
-  });
-  startBtn.addEventListener("mousedown", () => {
-    screenDisplay.textContent = "START";
-  });
-
   // NAVIGATION
   const gameGridContainer = document.querySelector("#game-grid");
   const gridOne = document.querySelector("#grid-item1");
@@ -191,6 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gridNine,
   ];
   let gridActiveIndex = 0; // gridOne
+  let isGameRunning = false;
 
   grids[gridActiveIndex].classList.add("active");
 
@@ -198,12 +183,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // TEMPORARY TEST - remove later
   btnA.addEventListener("mousedown", () => {
-    if (gridOne) {
-      // Show tetris, hide launcher
-      statusBar.style.display = "none";
-      document.getElementById("launcherCanvas").style.display = "none";
-      document.getElementById("tetrisContainer").style.display = "flex";
-      TetrisGame.start();
+    switch (gridActiveIndex) {
+      case 0:
+        if (!isGameRunning) {
+          statusBar.style.display = "none";
+          homeScreen.style.display = "none";
+          document.querySelector("#tetrisContainer").style.display = "flex";
+
+          TetrisGame.start();
+          isGameRunning = true;
+        }
+        break;
+      case 1:
+        // future game
+        break;
+      default:
+        window.alert("Please click Tetris only");
     }
   });
 });

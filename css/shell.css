@@ -6,9 +6,10 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding-inline: 1rem;
+  padding: 1rem;
   font-family: "JetBrains Mono", monospace;
   color: #16c2ce;
+  box-sizing: border-box;
 }
 
 /* Typography Utility Classes */
@@ -18,9 +19,9 @@ body {
 
 /* Physical Device Casing */
 .device-shell {
-  width: 340px;
-  height: 550px;
-  padding: 16px;
+  width: min(390px, 100%);
+  height: min(640px, calc(100vh - 2rem));
+  padding: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -39,9 +40,9 @@ body {
   width: 100%;
   background-color: #111;
   border-radius: 12px;
-  padding: 6px;
+  padding: 8px;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   position: relative;
   box-sizing: border-box;
 }
@@ -53,7 +54,7 @@ body {
   width: 100%;
   text-align: center;
   color: #333;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
 }
@@ -84,7 +85,7 @@ body {
 }
 
 .button-label {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: bold;
   color: #a3adbe;
 }
@@ -92,17 +93,17 @@ body {
 /* Directional Pad (D-Pad) */
 .dpad-container {
   position: absolute;
-  left: 8px;
-  top: 20px;
-  width: 96px;
-  height: 96px;
+  left: 10px;
+  top: 24px;
+  width: 112px;
+  height: 112px;
 }
 
 .dpad-cross-v {
   position: absolute;
-  width: 32px;
-  height: 96px;
-  left: 32px;
+  width: 38px;
+  height: 112px;
+  left: 37px;
   top: 0;
   background-color: #222;
   border-radius: 6px;
@@ -111,10 +112,10 @@ body {
 
 .dpad-cross-h {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 112px;
+  height: 38px;
   left: 0;
-  top: 32px;
+  top: 37px;
   background-color: #222;
   border-radius: 6px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -122,8 +123,8 @@ body {
 
 .dpad-btn {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   background: #2a2a2a;
   box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
   border: none;
@@ -142,7 +143,7 @@ body {
 
 .dpad-up {
   top: 0;
-  left: 32px;
+  left: 37px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   color: rgb(160, 155, 155);
@@ -150,14 +151,14 @@ body {
 
 .dpad-down {
   bottom: 0;
-  left: 32px;
+  left: 37px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   color: rgb(160, 155, 155);
 }
 
 .dpad-left {
-  top: 32px;
+  top: 37px;
   left: 0;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
@@ -165,7 +166,7 @@ body {
 }
 
 .dpad-right {
-  top: 32px;
+  top: 37px;
   right: 0;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
@@ -174,10 +175,10 @@ body {
 
 .dpad-pivot {
   position: absolute;
-  width: 32px;
-  height: 32px;
-  left: 32px;
-  top: 32px;
+  width: 38px;
+  height: 38px;
+  left: 37px;
+  top: 37px;
   background-color: #222;
   border-radius: 50%;
   box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.8);
@@ -188,8 +189,8 @@ body {
 }
 
 .dpad-pivot-inner {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background-color: #111;
 }
@@ -199,7 +200,7 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 16px;
+  top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -207,8 +208,8 @@ body {
 }
 
 .btn-menu {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: #2a2a2a;
 }
@@ -216,10 +217,10 @@ body {
 /* Action Cluster (ABXY) */
 .action-buttons-cluster {
   position: absolute;
-  right: 8px;
-  top: 16px;
-  width: 100px;
-  height: 100px;
+  right: 10px;
+  top: 20px;
+  width: 116px;
+  height: 116px;
 }
 
 .btn-position {
@@ -254,12 +255,12 @@ body {
 }
 
 .btn-action {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   padding: 0;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,39 +292,39 @@ body {
   align-items: center;
   justify-items: center;
   position: absolute;
-  top: 100px;
-  bottom: 32px;
+  top: 118px;
+  bottom: 36px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 16px;
+  gap: 20px;
 }
 
 .pill-button-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   transform: rotate(-12deg);
 }
 
 .pill-button-wrapper .button-label {
-  font-size: 7px;
+  font-size: 8px;
   font-weight: bold;
 }
 
 .btn-pill {
-  width: 40px;
-  height: 12px;
-  border-radius: 12px;
+  width: 48px;
+  height: 15px;
+  border-radius: 15px;
   background: #2a2a2a;
 }
 
 /* Speaker Grill Texture */
 .speaker-grill {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
+  bottom: 20px;
+  right: 20px;
   display: flex;
   gap: 4px;
   transform: rotate(45deg);
@@ -357,4 +358,30 @@ body {
 
 .bar-5 {
   height: 24px;
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .device-shell {
+    width: 100%;
+    height: calc(100svh - 1rem);
+    padding: 16px;
+  }
+
+  .screen-bezel {
+    margin-bottom: 22px;
+  }
+
+  .dpad-container {
+    left: 4px;
+    top: 18px;
+  }
+
+  .action-buttons-cluster {
+    right: 4px;
+    top: 14px;
+  }
 }
