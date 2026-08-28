@@ -179,26 +179,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   grids[gridActiveIndex].classList.add("active");
 
-  // HOME SCREEN STATE
+  let ignoreFirstAButtonClick = false;
 
-  // TEMPORARY TEST - remove later
-  btnA.addEventListener("mousedown", () => {
-    switch (gridActiveIndex) {
-      case 0:
-        if (!isGameRunning) {
-          statusBar.style.display = "none";
-          homeScreen.style.display = "none";
-          document.querySelector("#tetrisContainer").style.display = "flex";
+  btnA.addEventListener("click", () => {
+    const selectedGrid = grids[gridActiveIndex];
 
-          TetrisGame.start();
-          isGameRunning = true;
-        }
-        break;
-      case 1:
-        // future game
-        break;
-      default:
-        window.alert("Please click Tetris only");
+    if (selectedGrid === gridOne && !isGameRunning) {
+      statusBar.style.display = "none";
+      document.getElementById("launcherCanvas").style.display = "none";
+      document.getElementById("tetrisContainer").style.display = "flex";
+
+      TetrisGame.start();
+      isGameRunning = true;
+      ignoreFirstAButtonClick = true;
     }
   });
 });

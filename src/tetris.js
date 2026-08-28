@@ -559,4 +559,4 @@ startBtn.addEventListener("click", () => {
 });
 
 // TO DO
-// EVENTS FOR MOBILE
+// GAME PAUSE

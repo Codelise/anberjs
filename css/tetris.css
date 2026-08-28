@@ -9,7 +9,6 @@
   flex-direction: row;
   container-type: inline-size;
   background-color: #0c1616c7;
-  /* padding: calc(var(--u) * 8); */
   box-sizing: border-box;
   gap: calc(var(--u) * 10);
 }

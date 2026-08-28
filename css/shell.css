@@ -6,10 +6,19 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding: 1rem;
+  /* padding: 1rem; */
   font-family: "JetBrains Mono", monospace;
   color: #16c2ce;
   box-sizing: border-box;
+}
+
+body,
+.guideTexts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* Typography Utility Classes */
@@ -21,6 +30,7 @@ body {
 .device-shell {
   width: min(390px, 100%);
   height: min(640px, calc(100vh - 2rem));
+  margin-bottom: 10rem;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -53,7 +63,7 @@ body {
   left: 0;
   width: 100%;
   text-align: center;
-  color: #333;
+  color: #5c5a5a;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -367,7 +377,7 @@ body {
 
   .device-shell {
     width: 100%;
-    height: calc(100svh - 1rem);
+    max-height: 90svh;
     padding: 16px;
   }
 
@@ -383,5 +393,8 @@ body {
   .action-buttons-cluster {
     right: 4px;
     top: 14px;
+  }
+  .btn-action {
+    max-height: auto;
   }
 }
