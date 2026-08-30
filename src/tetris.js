@@ -91,6 +91,8 @@ const getRandomShape = () => {
 };
 
 // displays generated shape when called
+let currentSpeed = 1000;
+let level = 1;
 let currentShape;
 let nextShape;
 let startXPosition = 3;
@@ -107,15 +109,20 @@ const spawnShape = () => {
   }
 
   drawPiece(currentShape, currentPositionX, currentPositionY);
-  if (movePieceTimer) {
-    clearInterval(movePieceTimer);
-  }
-
-  movePieceTimer = setInterval(moveDown, 1000);
+  if (movePieceTimer) clearInterval(movePieceTimer);
+  movePieceTimer = setInterval(moveDown, currentSpeed);
 };
 
+let isSkipShape = false;
+
 // SKIP CURRENT SHAPE
-const spawnNextShape = () => {
+const spawnNextShape = (isSkip = false) => {
+  if (isSkip) {
+    if (isSkipShape) return;
+    isSkipShape = true;
+  } else {
+    isSkipShape = false;
+  }
   clearPiece(currentShape, currentPositionX, currentPositionY);
   currentShape = nextShape;
   nextShape = getRandomShape();
@@ -131,11 +138,8 @@ const spawnNextShape = () => {
   drawPiece(currentShape, currentPositionX, currentPositionY);
   drawNextShape();
 
-  if (movePieceTimer) {
-    clearInterval(movePieceTimer);
-  }
-
-  movePieceTimer = setInterval(moveDown, 1000);
+  if (movePieceTimer) clearInterval(movePieceTimer);
+  movePieceTimer = setInterval(moveDown, currentSpeed);
 };
 
 // Next shape View
@@ -438,9 +442,9 @@ const clearFullLines = () => {
 
   if (linesCleared > 0) {
     score += linesCleared + 4;
-
     const scoreBoard = document.querySelector("#tetrisScore");
     scoreBoard.textContent = score;
+    updateLevel();
   }
 };
 
@@ -472,7 +476,8 @@ window.addEventListener("keydown", (event) => {
       hardDrop();
       break;
     case "c":
-      spawnNextShape();
+      if (isGameOver || isGamePause) return;
+      spawnNextShape(true);
       break;
   }
 });
@@ -509,7 +514,8 @@ BButton.addEventListener("click", () => {
 
 const XButton = document.querySelector("#btn-x");
 XButton.addEventListener("click", () => {
-  spawnNextShape();
+  if (isGameOver || isGamePause) return;
+  spawnNextShape(true);
 });
 
 let isGameOver = false;
@@ -533,6 +539,8 @@ const gameOver = () => {
 const restartGame = () => {
   clearInterval(movePieceTimer);
   isGameOver = false;
+  currentSpeed = 1000;
+  level = 0;
   score = 0;
 
   const tetrisContainer = document.querySelector("#tetrisContainer");
@@ -548,15 +556,57 @@ const restartGame = () => {
   tetrisBoard.style.justifyContent = "";
   tetrisBoard.style.alignItems = "";
 
+  document.querySelector("#tetrisLevel").textContent = "1";
+
   currentPositionX = 3;
   currentPositionY = 0;
   startTetris();
 };
 
-const startBtn = document.querySelector("#btn-start");
-startBtn.addEventListener("click", () => {
+const selectBtn = document.querySelector("#btn-select");
+selectBtn.addEventListener("click", () => {
   restartGame();
 });
 
-// TO DO
-// GAME PAUSE
+const updateLevel = () => {
+  if (score >= 50) {
+    currentSpeed = 300;
+    level = 5;
+  } else if (score >= 40) {
+    currentSpeed = 500;
+    level = 4;
+  } else if (score >= 30) {
+    currentSpeed = 600;
+    level = 3;
+  } else if (score >= 20) {
+    currentSpeed = 700;
+    level = 2;
+  } else {
+    currentSpeed = 1000;
+    level = 1;
+  }
+
+  document.querySelector("#tetrisLevel").textContent = level;
+
+  // restart timer
+  if (movePieceTimer) {
+    clearInterval(movePieceTimer);
+  }
+  // currentSpeed = level currentSpeed
+  movePieceTimer = setInterval(moveDown, currentSpeed);
+};
+
+let isGamePause = false;
+const gamePause = () => {
+  isGamePause = !isGamePause;
+  if (isGamePause) {
+    clearInterval(movePieceTimer);
+  } else {
+    movePieceTimer = setInterval(moveDown, currentSpeed);
+  }
+};
+
+const startBtn = document.querySelector("#btn-start");
+startBtn.addEventListener("click", () => {
+  gamePause();
+});

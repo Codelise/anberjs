@@ -131,26 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnY = document.querySelector("#btn-y");
   const btnA = document.querySelector("#btn-a");
 
-  // btnX.addEventListener("mousedown", () => {
-  //   textScreen.style.visiblity = "visible";
-  //   textScreen.textContent = "X";
-  // });
-
-  // btnB.addEventListener("mousedown", () => {
-  //   screenDisplay.textContent = "B";
-  // });
-  // btnY.addEventListener("mousedown", () => {
-  //   screenDisplay.textContent = "Y";
-  // });
-  // btnA.addEventListener("mousedown", () => {
-  //   screenDisplay.textContent = "A";
-  // });
-
-  //   SELECT AND START BTNS
-  const selectBtn = document.querySelector("#btn-select");
-  const startBtn = document.querySelector("#btn-start");
-  let startHolder;
-
   // NAVIGATION
   const gameGridContainer = document.querySelector("#game-grid");
   const gridOne = document.querySelector("#grid-item1");
