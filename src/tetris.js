@@ -1,4 +1,3 @@
-// // REPROGRAM WITH OWN LOGIC
 let movePieceTimer;
 const gridWidth = 10; // 10 grid columns
 const gridHeight = 20; // 16 grid rows
@@ -20,6 +19,18 @@ const createGridDisplay = () => {
 
 // displays the tetris game after the A button was clicked
 function startTetris() {
+  // RESET
+  isGameOver = false;
+  tetrisBoard.style.display = "";
+  tetrisBoard.style.justifyContent = "";
+  tetrisBoard.style.alignItems = "";
+
+  // RESET
+  score = 0;
+  level = 1;
+  document.querySelector("#tetrisScore").textContent = "0";
+  document.querySelector("#tetrisLevel").textContent = "1";
+
   currentShape = getRandomShape();
   nextShape = getRandomShape();
   createGridBoard();
@@ -533,6 +544,10 @@ const gameOver = () => {
   tetrisBoard.style.display = "flex";
   tetrisBoard.style.justifyContent = "center";
   tetrisBoard.style.alignItems = "center";
+
+  // re-enable the menuBtn
+  const reEnableMenu = document.querySelector("#btnMenu");
+  reEnableMenu.disabled = false;
 };
 
 // TO DO RESTART GAME

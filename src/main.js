@@ -18,49 +18,57 @@ document.addEventListener("DOMContentLoaded", () => {
   //   MENU BTN
   // BOOT UP
   const menuBtn = document.querySelector("#btnMenu");
-  menuBtn.addEventListener("mousedown", function () {
-    // BOOTS UP
-    menuHoldTimer = setTimeout(() => {
-      statusBar.style.display = "none";
-      bootDisplay.textContent = "ANBERJS";
-      bootDisplay.style.display = "flex";
-      screenDisplay.style.zIndex = "1";
-      bootDisplay.style.zIndex = "100";
-      bootDisplay.style.fontSize = "40px";
-      homeScreen.style.display = "none";
-      // Goes to homescreen
-      setTimeout(() => {
-        bootDisplay.style.display = "none";
-        statusBar.style.display = "flex";
-        homeScreen.style.display = "flex";
-        homeScreen.style.flexDirection = "column";
-        bootFlag = true;
-        localStorage.setItem("homeScreen", "home");
-      }, 4000);
-    }, 2000);
-  });
+  menuBtn.addEventListener(
+    "mousedown",
+    function () {
+      // BOOTS UP
+      menuHoldTimer = setTimeout(() => {
+        statusBar.style.display = "none";
+        bootDisplay.textContent = "ANBERJS";
+        bootDisplay.style.display = "flex";
+        screenDisplay.style.zIndex = "1";
+        bootDisplay.style.zIndex = "100";
+        bootDisplay.style.fontSize = "40px";
+        homeScreen.style.display = "none";
+        // Goes to homescreen
+        setTimeout(() => {
+          bootDisplay.style.display = "none";
+          statusBar.style.display = "flex";
+          homeScreen.style.display = "flex";
+          homeScreen.style.flexDirection = "column";
+          bootFlag = true;
+          localStorage.setItem("homeScreen", "home");
+        }, 4000);
+      }, 2000);
+    },
+    { once: true },
+  );
 
-  // for mobi
-  menuBtn.addEventListener("touchstart", () => {
-    menuHoldTimer = setTimeout(() => {
-      statusBar.style.display = "none";
-      bootDisplay.textContent = "ANBERJS";
-      bootDisplay.style.display = "flex";
-      screenDisplay.style.zIndex = "1";
-      bootDisplay.style.zIndex = "100";
-      bootDisplay.style.fontSize = "40px";
-      homeScreen.style.display = "none";
-      // Goes to homescreen
-      setTimeout(() => {
-        bootDisplay.style.display = "none";
-        statusBar.style.display = "flex";
-        homeScreen.style.display = "flex";
-        homeScreen.style.flexDirection = "column";
-        bootFlag = true;
-        localStorage.setItem("homeScreen", "home");
-      }, 4000);
-    }, 2000);
-  });
+  // for mobile device
+  menuBtn.addEventListener(
+    "touchstart",
+    () => {
+      menuHoldTimer = setTimeout(() => {
+        statusBar.style.display = "none";
+        bootDisplay.textContent = "ANBERJS";
+        bootDisplay.style.display = "flex";
+        screenDisplay.style.zIndex = "1";
+        bootDisplay.style.zIndex = "100";
+        bootDisplay.style.fontSize = "40px";
+        homeScreen.style.display = "none";
+        // Goes to homescreen
+        setTimeout(() => {
+          bootDisplay.style.display = "none";
+          statusBar.style.display = "flex";
+          homeScreen.style.display = "flex";
+          homeScreen.style.flexDirection = "column";
+          bootFlag = true;
+          localStorage.setItem("homeScreen", "home");
+        }, 4000);
+      }, 2000);
+    },
+    { once: true },
+  );
 
   menuBtn.addEventListener("mouseup", function () {
     clearTimeout(menuHoldTimer);
@@ -74,16 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Goes to homescreen again
   menuBtn.addEventListener("click", () => {
     if (bootFlag) {
-      const savedView = localStorage.getItem("homeScreen");
-      if (savedView === "home") {
-        console.log(savedView);
-        bootDisplay.style.display = "none";
-        statusBar.style.display = "flex";
-        homeScreen.style.display = "block";
-      }
+      showHomeScreen();
     }
   });
-
   //   D-PAD CONTROLS
   const dpadUpBtn = document.querySelector("#btn-up");
   const dpadDownBtn = document.querySelector("#btn-down");
@@ -130,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnB = document.querySelector("#btn-b");
   const btnY = document.querySelector("#btn-y");
   const btnA = document.querySelector("#btn-a");
+  btnA.disabled = true;
 
   // NAVIGATION
   const gameGridContainer = document.querySelector("#game-grid");
@@ -161,17 +163,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let ignoreFirstAButtonClick = false;
 
-  btnA.addEventListener("click", () => {
-    const selectedGrid = grids[gridActiveIndex];
+  if (btnA.disabled === true) {
+    btnA.disabled = false;
 
-    if (selectedGrid === gridOne && !isGameRunning) {
-      statusBar.style.display = "none";
-      document.getElementById("launcherCanvas").style.display = "none";
-      document.getElementById("tetrisContainer").style.display = "flex";
+    btnA.addEventListener("click", () => {
+      const selectedGrid = grids[gridActiveIndex];
 
-      TetrisGame.start();
-      isGameRunning = true;
-      ignoreFirstAButtonClick = true;
-    }
-  });
+      if (selectedGrid === gridOne && !isGameRunning) {
+        statusBar.style.display = "none";
+        document.getElementById("launcherCanvas").style.display = "none";
+        document.getElementById("tetrisContainer").style.display = "flex";
+
+        TetrisGame.start();
+        isGameRunning = true;
+        ignoreFirstAButtonClick = true;
+        menuBtn.disabled = true;
+      }
+    });
+  }
+
+  // reusable homeScreen function (Tetris for now)
+  const showHomeScreen = () => {
+    document.querySelector("#tetrisContainer").style.display = "none";
+    bootDisplay.style.display = "none";
+
+    statusBar.style.display = "flex";
+    homeScreen.style.display = "flex";
+    homeScreen.style.flexDirection = "column";
+
+    bootFlag = true;
+    isGameRunning = false;
+    localStorage.setItem("homeScreen", "home");
+  };
 });
