@@ -1,0 +1,528 @@
+/* ==========================================================================
+   ANBER-AUDIO HANDHELD MUSIC PLAYER STYLESHEET
+   ========================================================================== */
+
+/* 1. Root Color & Font Definitions */
+:root {
+  --surface-container-high: #292a2f;
+  --primary-fixed: #6ff6ff;
+  --inverse-primary: #00696f;
+  --secondary-container: #6f00be;
+  --surface-dim: #121318;
+  --tertiary-fixed: #4dffb1;
+  --on-surface: #e3e1e9;
+  --primary-container: #00f3ff;
+  --primary: #e3fdff;
+  --on-surface-variant: #b9cacb;
+  --surface-container-lowest: #0d0e13;
+  --surface: #121318;
+  --surface-tint: #00dce6;
+  --tertiary: #00ff9d;
+  --surface-container: #1e1f25;
+  --secondary: #ddb7ff;
+
+  --font-body: "JetBrains Mono", monospace;
+  --font-display: "Space Mono", monospace;
+}
+
+/* 2. Global Base Styles */
+body {
+  background-color: #222226;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--font-body);
+}
+
+/* 3. Physical Handheld Hardware Shell & Buttons */
+/* .device-shell {
+  background-color: #f8f9fa;
+  border-radius: 2.2rem 2.2rem 3rem 1.8rem;
+  box-shadow:
+    inset 2px 2px 5px rgba(255, 255, 255, 0.9),
+    inset -5px -5px 16px rgba(0, 0, 0, 0.12),
+    0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+.physical-button {
+  box-shadow:
+    2px 3px 0px 0px rgba(0, 0, 0, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.45);
+  transition: all 0.05s ease;
+  user-select: none;
+}
+
+.physical-button:active,
+.physical-button.active {
+  box-shadow:
+    0px 0px 0px 0px rgba(0, 0, 0, 0.3),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+  transform: translate(2px, 2px);
+}
+
+.dpad-btn {
+  background: #2a2a2a;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.15);
+  user-select: none;
+}
+
+.dpad-btn:active,
+.dpad-btn.active {
+  background: #141414;
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.6);
+} */
+
+/* 4. CRT Scanline Effect */
+.scanlines {
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03)
+    );
+  background-size:
+    100% 3px,
+    3px 100%;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  opacity: 0.7;
+}
+
+/* 5. Audio Visualizer Equalizer Animations */
+@keyframes bounce-1 {
+  0%,
+  100% {
+    height: 18%;
+  }
+  50% {
+    height: 95%;
+  }
+}
+@keyframes bounce-2 {
+  0%,
+  100% {
+    height: 75%;
+  }
+  50% {
+    height: 25%;
+  }
+}
+@keyframes bounce-3 {
+  0%,
+  100% {
+    height: 35%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+@keyframes bounce-4 {
+  0%,
+  100% {
+    height: 90%;
+  }
+  50% {
+    height: 40%;
+  }
+}
+@keyframes bounce-5 {
+  0%,
+  100% {
+    height: 50%;
+  }
+  50% {
+    height: 85%;
+  }
+}
+
+.eq-bar-1 {
+  animation: bounce-1 0.75s ease-in-out infinite;
+}
+.eq-bar-2 {
+  animation: bounce-2 0.6s ease-in-out infinite alternate;
+}
+.eq-bar-3 {
+  animation: bounce-3 0.85s ease-in-out infinite;
+}
+.eq-bar-4 {
+  animation: bounce-4 0.5s ease-in-out infinite alternate;
+}
+.eq-bar-5 {
+  animation: bounce-5 0.9s ease-in-out infinite;
+}
+
+.paused .eq-bar {
+  animation-play-state: paused !important;
+  height: 15% !important;
+  transition: height 0.3s ease;
+}
+
+/* 6. Custom Subtle Tracklist Scrollbar */
+.custom-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 243, 255, 0.3);
+  border-radius: 4px;
+}
+
+/* 7. Screen Container & Structural Components */
+#audio-screen {
+  width: 100%;
+  height: 285px;
+  background-color: #0c0d14;
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: var(--on-surface);
+  border: 1px solid #1b1c26;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.audio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 20;
+  background-color: rgba(18, 19, 29, 0.9);
+  border-bottom: 1px solid rgba(0, 243, 255, 0.25);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 10px rgba(0, 243, 255, 0.15);
+}
+
+.status-pulse-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #00f3ff;
+  box-shadow: 0 0 6px #00f3ff;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.brand-title {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #00f3ff;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  filter: drop-shadow(0 0 6px rgba(0, 243, 255, 0.8));
+}
+
+.header-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: rgba(0, 243, 255, 0.9);
+}
+
+.audio-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 6px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* 8. Now Playing Hero Deck */
+.hero-deck {
+  background-color: rgba(20, 22, 36, 0.9);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 0 12px rgba(0, 243, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.hero-glow-effect {
+  position: absolute;
+  right: -24px;
+  bottom: -24px;
+  width: 80px;
+  height: 80px;
+  background-color: rgba(181, 55, 242, 0.1);
+  border-radius: 50%;
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 8px;
+  letter-spacing: 0.05em;
+}
+
+.badge-playing {
+  background-color: rgba(0, 255, 157, 0.2);
+  color: #00ff9d;
+  border: 1px solid rgba(0, 255, 157, 0.4);
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 0 6px rgba(0, 255, 157, 0.3);
+}
+
+.ping-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #00ff9d;
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.badge-bpm {
+  color: #b537f2;
+  font-weight: 700;
+  border: 1px solid rgba(181, 55, 242, 0.3);
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-size: 7px;
+}
+
+.badge-format {
+  color: #00f3ff;
+  font-size: 7px;
+  font-weight: 700;
+  padding: 2px 4px;
+  background-color: rgba(0, 243, 255, 0.1);
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  border-radius: 2px;
+  letter-spacing: 0.1em;
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.track-meta-wrapper {
+  min-width: 0;
+  flex: 1;
+}
+
+.track-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #00f3ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  filter: drop-shadow(0 0 5px rgba(0, 243, 255, 0.8));
+  margin: 0;
+}
+
+.track-artist {
+  font-size: 8px;
+  font-weight: 600;
+  color: #ddb7ff;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  filter: drop-shadow(0 0 4px rgba(181, 55, 242, 0.6));
+  margin: 0;
+}
+
+/* Visualizer Container & Bars */
+.visualizer-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 28px;
+  padding: 2px 6px;
+  background-color: #08090f;
+  border-radius: 2px;
+  border: 1px solid #2b2e45;
+  flex-shrink: 0;
+}
+
+.eq-bar {
+  width: 3px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.bar-cyan {
+  background-color: #00f3ff;
+  box-shadow: 0 0 5px #00f3ff;
+}
+.bar-green {
+  background-color: #00ff9d;
+  box-shadow: 0 0 5px #00ff9d;
+}
+.bar-purple {
+  background-color: #b537f2;
+  box-shadow: 0 0 5px #b537f2;
+}
+.bar-lavender {
+  background-color: #ddb7ff;
+  box-shadow: 0 0 5px #ddb7ff;
+}
+
+/* Progress Bar & Timestamps */
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.progress-track {
+  width: 100%;
+  background-color: #08090f;
+  height: 8px;
+  border-radius: 2px;
+  padding: 1px;
+  border: 1px solid rgba(0, 243, 255, 0.3);
+  display: flex;
+  align-items: center;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f3ff, #00ff9d, #b537f2);
+  border-radius: 1px;
+  box-shadow: 0 0 8px rgba(0, 243, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7px;
+  font-weight: 700;
+}
+
+.time-curr {
+  color: #00f3ff;
+}
+.eq-mode {
+  color: #a49bb3;
+}
+.time-tot {
+  color: #849495;
+}
+
+/* 9. Scrollable Tracklist Container */
+.tracklist-view {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 2px;
+}
+
+/* 10. Console Button Prompts Footer Bar */
+.console-footer {
+  height: 24px;
+  padding: 0 8px;
+  width: 100%;
+  background-color: rgba(8, 9, 15, 0.95);
+  border-top: 1px solid rgba(0, 243, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 7px;
+  font-weight: 700;
+  z-index: 20;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.prompt-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.key-badge {
+  padding: 1px 4px;
+  border-radius: 2px;
+  line-height: 1;
+}
+
+.badge-a {
+  background-color: rgba(0, 255, 157, 0.2);
+  color: #00ff9d;
+  border: 1px solid rgba(0, 255, 157, 0.6);
+}
+
+.badge-x {
+  background-color: rgba(181, 55, 242, 0.25);
+  color: #ddb7ff;
+  border: 1px solid rgba(181, 55, 242, 0.6);
+}
+
+.badge-y {
+  background-color: rgba(254, 203, 0, 0.2);
+  color: #fecb00;
+  border: 1px solid rgba(254, 203, 0, 0.6);
+}
+
+.badge-sel {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.prompt-a-text {
+  color: #00ff9d;
+}
+.prompt-x-text {
+  color: #ddb7ff;
+}
+.prompt-y-text {
+  color: #fecb00;
+}
+.prompt-sel-text {
+  color: #849495;
+}
+
+/* 11. Generic Pulse Animation Keyframes */
+@keyframes pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

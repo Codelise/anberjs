@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/shell.css" />
     <link rel="stylesheet" href="css/os.css" />
     <link rel="stylesheet" href="css/tetris.css" />
+    <link rel="stylesheet" href="css/music.css" />
   </head>
 
   <body>
@@ -59,11 +60,9 @@
               <!-- Grid Item 2 -->
               <div class="grid-item" id="grid-item2">
                 <div class="icon-wrapper">
-                  <span class="material-symbols-outlined"
-                    >stadia_controller</span
-                  >
+                  <span class="material-symbols-outlined"> music_video </span>
                 </div>
-                <span class="game-title">Block Buster</span>
+                <span class="game-title">Music</span>
               </div>
 
               <!-- Grid Item 3 -->
@@ -161,6 +160,143 @@
               </div>
             </div>
           </div>
+
+          <!-- ANBER MUSIC -->
+          <div id="audio-screen" style="display: none">
+            <!-- Scanline CRT Effect Overlay -->
+            <div class="scanlines"></div>
+
+            <!-- 1. Header Bar -->
+            <header class="audio-header">
+              <div class="prompt-group">
+                <span class="status-pulse-dot"></span>
+                <span class="brand-title">ANBER-AUDIO</span>
+              </div>
+              <div class="header-status-icons">
+                <span
+                  class="material-symbols-outlined"
+                  style="font-size: 12px; filter: drop-shadow(0 0 4px #00f3ff)"
+                  >wifi</span
+                >
+                <span
+                  class="material-symbols-outlined"
+                  style="font-size: 12px; filter: drop-shadow(0 0 4px #00f3ff)"
+                  >volume_up</span
+                >
+                <span
+                  style="
+                    font-weight: 700;
+                    font-size: 9px;
+                    letter-spacing: 0.05em;
+                    color: #00ff9d;
+                  "
+                  >23:42</span
+                >
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    font-size: 11px;
+                    color: #00ff9d;
+                  "
+                >
+                  <span
+                    class="material-symbols-outlined"
+                    style="font-size: 13px"
+                    >battery_5_bar</span
+                  >
+                </div>
+              </div>
+            </header>
+
+            <!-- 2. Main Screen Body -->
+            <div class="audio-body">
+              <!-- Hero Now Playing Section -->
+              <section class="hero-deck">
+                <div class="hero-glow-effect"></div>
+
+                <!-- Metadata Row -->
+                <div class="meta-row">
+                  <div style="display: flex; align-items: center; gap: 4px">
+                    <span class="badge-playing" id="play-status">
+                      <span class="ping-dot"></span>
+                      PLAYING [LOOP]
+                    </span>
+                    <span class="badge-bpm">BPM: 128</span>
+                  </div>
+                  <span class="badge-format">HI-RES FLAC</span>
+                </div>
+
+                <!-- Track Information & Visualizer -->
+                <div class="track-row">
+                  <div class="track-meta-wrapper">
+                    <h2 class="track-title" id="current-title">
+                      NEON DRIFT // NIGHT RUN
+                    </h2>
+                    <p class="track-artist" id="current-artist">
+                      CYBERPUNK SESSIONS
+                    </p>
+                  </div>
+
+                  <!-- Equalizer Bars -->
+                  <div class="visualizer-container" id="visualizer">
+                    <div class="eq-bar eq-bar-1 bar-cyan"></div>
+                    <div class="eq-bar eq-bar-2 bar-green"></div>
+                    <div class="eq-bar eq-bar-3 bar-purple"></div>
+                    <div class="eq-bar eq-bar-4 bar-cyan"></div>
+                    <div class="eq-bar eq-bar-5 bar-green"></div>
+                    <div class="eq-bar eq-bar-2 bar-lavender"></div>
+                    <div class="eq-bar eq-bar-3 bar-cyan"></div>
+                    <div class="eq-bar eq-bar-1 bar-green"></div>
+                  </div>
+                </div>
+
+                <!-- Segmented Track Progress Bar -->
+                <div class="progress-section">
+                  <div class="progress-track">
+                    <div
+                      class="progress-fill"
+                      id="progress-fill"
+                      style="width: 66%"
+                    ></div>
+                  </div>
+                  <div class="time-row">
+                    <span class="time-curr" id="time-current">02:45</span>
+                    <span class="eq-mode">EQ: STEREO PRO</span>
+                    <span class="time-tot" id="time-total">04:12</span>
+                  </div>
+                </div>
+              </section>
+
+              <!-- 3. Scrollable Tracklist Container -->
+              <div
+                class="tracklist-view custom-scroll"
+                id="tracklist-container"
+              >
+                <!-- Tracks dynamically rendered via musicPlayer.js -->
+              </div>
+            </div>
+
+            <!-- 4. Footer Console Controls Bar -->
+            <footer class="console-footer">
+              <div class="prompt-group prompt-a-text">
+                <span class="key-badge badge-a">A</span>
+                <span id="prompt-a">PAUSE</span>
+              </div>
+              <div class="prompt-group prompt-x-text">
+                <span class="key-badge badge-x">X</span>
+                <span>IMPORT</span>
+              </div>
+              <div class="prompt-group prompt-y-text">
+                <span class="key-badge badge-y">Y</span>
+                <span>SHUFFLE</span>
+              </div>
+              <div class="prompt-group prompt-sel-text">
+                <span class="key-badge badge-sel">SEL</span>
+                <span>BACK</span>
+              </div>
+            </footer>
+          </div>
         </div>
         <!-- Brand Text on Bezel -->
         <div class="bezel-brand font-label-caps">RETRO GAMES</div>
@@ -248,7 +384,8 @@
       </div>
     </div>
 
-    <script src="src/tetris.js" defer></script>
     <script src="src/main.js" defer></script>
+    <script src="src/games/tetris.js" defer></script>
+    <script src="src/music/music.js" defer></script>
   </body>
 </html>

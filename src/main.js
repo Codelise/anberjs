@@ -178,6 +178,14 @@ document.addEventListener("DOMContentLoaded", () => {
         isGameRunning = true;
         ignoreFirstAButtonClick = true;
         menuBtn.disabled = true;
+      } else if (selectedGrid === gridTwo && !isGameRunning) {
+        statusBar.style.display = "none";
+        document.getElementById("launcherCanvas").style.display = "none";
+        document.getElementById("audio-screen").style.display = "flex";
+
+        isGameRunning = true;
+        ignoreFirstAButtonClick = true;
+        menuBtn.disabled = true;
       }
     });
   }
@@ -185,6 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // reusable homeScreen function (Tetris for now)
   const showHomeScreen = () => {
     document.querySelector("#tetrisContainer").style.display = "none";
+    document.querySelector("#audio-screen").style.display = "none";
     bootDisplay.style.display = "none";
 
     statusBar.style.display = "flex";
