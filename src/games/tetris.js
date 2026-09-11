@@ -579,6 +579,7 @@ const restartGame = () => {
 };
 
 const selectBtn = document.querySelector("#btn-select");
+selectBtn.disabled = false;
 selectBtn.addEventListener("click", () => {
   restartGame();
 });

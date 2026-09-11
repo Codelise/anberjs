@@ -193,7 +193,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 4px 8px;
-  width: 100%;
+  width: auto;
   flex-shrink: 0;
   z-index: 20;
   background-color: rgba(18, 19, 29, 0.9);
@@ -450,7 +450,7 @@ body {
 .console-footer {
   height: 24px;
   padding: 0 8px;
-  width: 100%;
+  width: auto;
   background-color: rgba(8, 9, 15, 0.95);
   border-top: 1px solid rgba(0, 243, 255, 0.3);
   display: flex;

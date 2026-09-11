@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const selectBtn = document.querySelector("#btn-select");
+  selectBtn.disabled = true;
   // SCREEN DISPLAY
   const screenDisplay = document.querySelector("#screenDisplay");
   let menuHoldTimer;
@@ -161,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   grids[gridActiveIndex].classList.add("active");
 
-  let ignoreFirstAButtonClick = false;
+  // let ignoreFirstAButtonClick = false;
 
   if (btnA.disabled === true) {
     btnA.disabled = false;
@@ -170,14 +172,20 @@ document.addEventListener("DOMContentLoaded", () => {
       const selectedGrid = grids[gridActiveIndex];
 
       if (selectedGrid === gridOne && !isGameRunning) {
-        statusBar.style.display = "none";
-        document.getElementById("launcherCanvas").style.display = "none";
-        document.getElementById("tetrisContainer").style.display = "flex";
+        loadTetris()
+          .then(() => {
+            statusBar.style.display = "none";
+            document.getElementById("launcherCanvas").style.display = "none";
+            document.getElementById("tetrisContainer").style.display = "flex";
 
-        TetrisGame.start();
-        isGameRunning = true;
-        ignoreFirstAButtonClick = true;
-        menuBtn.disabled = true;
+            TetrisGame.start();
+            isGameRunning = true;
+            ignoreFirstAButtonClick = true;
+            menuBtn.disabled = true;
+          })
+          .catch((error) => {
+            alert("Failed to load Tetris:", error);
+          });
       } else if (selectedGrid === gridTwo && !isGameRunning) {
         statusBar.style.display = "none";
         document.getElementById("launcherCanvas").style.display = "none";
@@ -205,3 +213,16 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("homeScreen", "home");
   };
 });
+
+const loadTetris = () => {
+  // resolve = function call success, reject = function call fail
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "src/games/tetris.js";
+    script.onload = resolve;
+    console.log(script.onload);
+    script.onerror = reject;
+    console.log(script.onerror);
+    document.head.appendChild(script);
+  });
+};
